@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -10 148 160"><defs>
+<linearGradient id="atile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A4FB8"/><stop offset=".45" stop-color="#11307F"/><stop offset="1" stop-color="#081A52"/></linearGradient>
+<linearGradient id="aside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#061244"/><stop offset="1" stop-color="#020822"/></linearGradient>
+<linearGradient id="agloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="awhite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#EEF3FF"/><stop offset="1" stop-color="#B9C8EC"/></linearGradient>
+<linearGradient id="aorg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB070"/><stop offset=".45" stop-color="#FF7A1F"/><stop offset="1" stop-color="#E04F00"/></linearGradient>
+<radialGradient id="ahub" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E3EAFA"/><stop offset="1" stop-color="#9AABD6"/></radialGradient>
+<radialGradient id="aglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFD6B0" stop-opacity=".9"/><stop offset="1" stop-color="#FF7A1F" stop-opacity="0"/></radialGradient>
+<filter id="adrop" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#020822" flood-opacity=".45"/></filter>
+<filter id="asoft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#010618" flood-opacity=".55"/></filter>
+<clipPath id="aclip"><rect width="120" height="120" rx="28"/></clipPath></defs><g filter="url(#adrop)"><rect y="6" width="120" height="120" rx="28" fill="url(#aside)"/><rect width="120" height="120" rx="28" fill="url(#atile)"/></g>
+<rect x="1" y="1" width="118" height="118" rx="27" fill="none" stroke="#6F93F0" stroke-opacity=".55" stroke-width="2"/>
+<g clip-path="url(#aclip)">
+ <circle cx="94.38" cy="64.82" r="30" fill="url(#aglow)" opacity=".55"/>
+ <g filter="url(#asoft)">
+  <path d="M22 81A38 38 0 0 1 69.45 44.19" transform="translate(0 3)" fill="none" stroke="#8193C4" stroke-width="13" stroke-linecap="round"/>
+  <path d="M82.34 50.26A38 38 0 0 1 98 81" transform="translate(0 3)" fill="none" stroke="#A83A00" stroke-width="13" stroke-linecap="round"/>
+  <path d="M22 81A38 38 0 0 1 69.45 44.19" fill="none" stroke="url(#awhite)" stroke-width="13" stroke-linecap="round"/>
+  <path d="M82.34 50.26A38 38 0 0 1 98 81" fill="none" stroke="url(#aorg)" stroke-width="13" stroke-linecap="round"/>
+ </g>
+ <path d="M22.07 78.61A38 38 0 0 1 67.12 43.67" transform="translate(0 -3.2)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+ <path d="M84.22 51.72A38 38 0 0 1 97.93 78.61" transform="translate(0 -3.2)" fill="none" stroke="#FFE0C4" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+ <path d="M40.58 66.89L45.44 70.42" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M52.58 58.17L54.44 63.88" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M67.42 58.17L65.56 63.88" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+ <g filter="url(#asoft)">
+  <path d="M56.77 76.55L86.7 61.6L63.23 85.45Z" transform="translate(0 2.5)" fill="#A83A00" stroke="#A83A00" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M56.77 76.55L86.7 61.6L63.23 85.45Z" fill="url(#aorg)" stroke="#FF8A33" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="60" cy="83.5" r="10" fill="#7183B8"/>
+  <circle cx="60" cy="81" r="10" fill="url(#ahub)"/>
+ </g>
+ <circle cx="60" cy="81" r="4" fill="#0A1F5C"/><circle cx="56.6" cy="76.8" r="2.2" fill="#fff" opacity=".9"/>
+ <path d="M94 29l2.6 6.4 6.4 2.6-6.4 2.6L94 47l-2.6-6.4L85 38l6.4-2.6z" fill="#fff" filter="url(#asoft)"/>
+ <path d="M0 0H120V50C88 62 40 64 0 56Z" fill="url(#agloss)" opacity=".6"/>
+</g></svg>

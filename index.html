@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Test how exposed any job is to AI and robots, task by task, and get a plan to stay relevant. Works with ChatGPT, Gemini, Copilot, Claude or any AI.">
+<meta name="theme-color" content="#1546C0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Stress Test">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Career Stress Test">
+<meta property="og:description" content="How exposed is your job to AI and robots? Take the test and get a task-by-task plan.">
+<meta property="og:url" content="https://ai-career-stress-test.github.io/">
+<meta property="og:image" content="https://ai-career-stress-test.github.io/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>AI Career Stress Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a blue masthead, the test bench on the left, the result dashboard on the right. Single look: blue, orange, white. */
+:root{
+  --blue:#1546C0; --navy:#0B2A6F; --sky:#7FB0F7; --sky-bg:#DCE9FD;
+  --orange:#F26A1B; --orange-ink:#B44400; --orange-bg:#FEE9DC;
+  --white:#FFFFFF; --tint:#F2F6FE; --line:#D5E0F3; --ink:#0B2A6F; --muted:#4A5B80;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--tint);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+h1,h2,h3,p{margin:0}h1,h2,h3{text-wrap:balance}
+.gutter{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mast{background:var(--blue);color:var(--white)}
+.mast .gutter{padding-block:26px;display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:18px;align-items:center;min-width:0;flex:1 1 420px}
+.brand svg{width:84px;height:91px;flex:none}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,6vw,54px);line-height:1;letter-spacing:.01em;text-transform:uppercase}
+.mast p{max-width:58ch;color:#E3ECFD;font-size:15px;margin-top:4px}
+.invite{display:flex;flex-direction:column;gap:6px;flex:0 1 340px;min-width:0}
+.invite label{font-size:13px;font-weight:600;color:var(--white)}
+.linkrow{display:flex;gap:8px}
+.linkrow input{flex:1;min-width:0;font:13px var(--mono)}
+.layout{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start;padding-block:22px 48px}
+@media (max-width:940px){.layout{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+h2{font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:.02em;text-transform:uppercase;line-height:1.1}
+h3{font-size:15px;font-weight:700}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted)}
+label{font-weight:600;font-size:14px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+input,textarea,select{font:inherit;font-size:16px;color:var(--ink);background:var(--white);border:1px solid #B9C9E6;border-radius:6px;padding:9px 11px;width:100%;min-width:0}
+textarea{min-height:84px;resize:vertical}
+:is(input,textarea,select,button,a,summary):focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;background:var(--sky-bg);padding:4px;border-radius:8px}
+.tabs button{border:0;background:transparent;color:var(--navy);padding:9px 6px;font-size:14px}
+.tabs button[aria-pressed=true]{background:var(--blue);color:var(--white)}
+.tabs button:disabled{color:var(--muted);opacity:.7}
+button{font:inherit;font-weight:700;border-radius:6px;padding:11px 18px;cursor:pointer;border:1px solid transparent}
+.primary{background:var(--orange);color:var(--navy)}
+.primary:hover{background:#FF8034}
+.ghost{background:var(--white);color:var(--blue);border-color:var(--blue)}
+.mast .ghost{border-color:var(--white)}
+button:disabled{opacity:.55;cursor:default}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{font-size:14px;color:var(--muted)}.status.err{color:var(--orange-ink);font-weight:600}
+.trow{border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:9px;background:var(--tint)}
+.trow .top{display:grid;grid-template-columns:1fr 78px;gap:8px}
+.trow select{font-size:14px;padding:7px 8px}.trow label{font-size:12.5px}
+.trow .rm{align-self:flex-start;background:none;border:0;padding:0;color:var(--blue);font-size:13px;font-weight:600;text-decoration:underline}
+.readout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 28px;align-items:center}
+@media (max-width:560px){.readout{grid-template-columns:minmax(0,1fr)}}
+.score{font-family:var(--display);font-weight:700;font-size:136px;line-height:.85;color:var(--blue);font-variant-numeric:tabular-nums}
+.score small{font-size:28px;color:var(--muted);margin-left:4px}
+.verdict{display:inline-block;align-self:flex-start;font-family:var(--display);font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.03em;padding:2px 12px;border-radius:5px}
+.tag{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--orange-bg);color:var(--orange-ink)}
+.scale{position:relative;padding-top:15px;padding-bottom:20px}
+.track{display:flex;height:12px;border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%}
+.pin{position:absolute;top:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--navy);transform:translateX(-8px)}
+.tick{position:absolute;bottom:0;font:11px var(--mono);color:var(--muted);transform:translateX(-50%)}
+.tick:first-of-type{transform:none}.tick.end{transform:translateX(-100%)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--tint);border-radius:6px;padding:10px 12px;min-width:0}
+.stat b{display:block;font:700 30px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--navy)}
+.stat span{font-size:12.5px;color:var(--muted)}
+.chart{display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 6px}
+.yaxis{position:relative;height:190px}
+.yaxis span{position:absolute;right:0;font:11px var(--mono);color:var(--muted);transform:translateY(50%)}
+.plot{position:relative;height:190px;border-bottom:2px solid var(--navy);display:flex;align-items:flex-end;gap:2px}
+.plot hr{position:absolute;left:0;right:0;margin:0;border:0;border-top:1px dashed #AFC2E3}
+.col-bar{position:relative;min-width:0}
+.col-bar b{position:absolute;top:6px;left:0;right:0;text-align:center;font:600 13px var(--mono)}
+.xaxis{grid-column:2;display:flex;gap:2px;font:12px var(--mono);color:var(--muted);padding-top:4px}
+.xaxis span{min-width:0;text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.task{display:grid;grid-template-columns:26px minmax(0,1fr) 44px;gap:3px 8px;padding:13px 0;border-top:1px solid var(--line)}
+.task:first-child{border-top:0;padding-top:0}
+.task .n{font:13px var(--mono);color:var(--muted);padding-top:2px}
+.task .name{font-weight:600}
+.task .pct{font:700 25px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.task .meta,.task .why{grid-column:2/-1}
+.task .meta{display:flex;flex-wrap:wrap;gap:6px}.task .why{font-size:14px;color:var(--muted)}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
+.c-automate{background:var(--orange);color:var(--navy)}.c-augment{background:var(--sky);color:var(--navy)}.c-human{background:var(--navy);color:var(--white)}
+.c-plain{background:var(--tint);color:var(--muted)}
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.lane{display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--tint);border-radius:6px;padding:14px}
+.lane>span{height:5px;width:36px;border-radius:2px}
+ul,ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.card .who{font:12px var(--mono);color:var(--muted)}.card p{font-size:14px;color:var(--muted)}
+.pe{background:var(--sky-bg);border-radius:6px;padding:14px;font-size:14px}.pe strong{display:block}
+.sharecard{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.sharecard h2{color:var(--white)}.sharecard p.hint{color:#D7E3FB}
+.sharecard a{display:inline-block;font-weight:700;border-radius:6px;padding:11px 18px;background:var(--white);color:var(--blue);text-decoration:none}
+.method{gap:12px}.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}.modes div{padding:10px 12px;border-radius:6px;font-size:13px}
+.foot{font-size:12.5px;color:var(--muted)}
+.step{display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.step:first-child{border-top:0;padding-top:0}
+.ailinks{display:flex;flex-wrap:wrap;gap:8px}
+.ailinks a{border:1px solid var(--blue);color:var(--blue);background:var(--white);border-radius:6px;padding:7px 12px;font-weight:700;font-size:14px;text-decoration:none}
+.ailinks a:hover{background:var(--sky-bg)}
+details summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:14px}
+details textarea{margin-top:8px;font:12px/1.5 var(--mono);min-height:140px}
+.cmp{display:grid;grid-template-columns:minmax(0,120px) minmax(0,1fr) 40px;gap:10px;align-items:center;width:100%;text-align:left;background:var(--tint);border:2px solid transparent;color:var(--ink);padding:10px 12px;font-weight:600}
+.cmp.on{border-color:var(--blue);background:var(--white)}
+.cmp .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmp .tr{height:10px;background:var(--line);border-radius:3px;overflow:hidden}.cmp .tr i{display:block;height:100%}
+.cmp b{font:700 22px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.srcs{display:flex;flex-direction:column;gap:6px;margin:0;padding-left:19px}.srcs a{color:var(--blue);word-break:break-word}
+@media (prefers-reduced-motion:no-preference){.col-bar{transition:height .5s ease}}
+</style>
+</head>
+<body>
+
+<header class="mast"><div class="gutter">
+  <div class="brand">
+    <svg viewBox="-14 -10 148 160" aria-hidden="true"><defs>
+<linearGradient id="htile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A4FB8"/><stop offset=".45" stop-color="#11307F"/><stop offset="1" stop-color="#081A52"/></linearGradient>
+<linearGradient id="hside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#061244"/><stop offset="1" stop-color="#020822"/></linearGradient>
+<linearGradient id="hgloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="hwhite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#EEF3FF"/><stop offset="1" stop-color="#B9C8EC"/></linearGradient>
+<linearGradient id="horg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB070"/><stop offset=".45" stop-color="#FF7A1F"/><stop offset="1" stop-color="#E04F00"/></linearGradient>
+<radialGradient id="hhub" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E3EAFA"/><stop offset="1" stop-color="#9AABD6"/></radialGradient>
+<radialGradient id="hglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFD6B0" stop-opacity=".9"/><stop offset="1" stop-color="#FF7A1F" stop-opacity="0"/></radialGradient>
+<filter id="hdrop" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#020822" flood-opacity=".45"/></filter>
+<filter id="hsoft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#010618" flood-opacity=".55"/></filter>
+<clipPath id="hclip"><rect width="120" height="120" rx="28"/></clipPath></defs><g filter="url(#hdrop)"><rect y="6" width="120" height="120" rx="28" fill="url(#hside)"/><rect width="120" height="120" rx="28" fill="url(#htile)"/></g>
+<rect x="1" y="1" width="118" height="118" rx="27" fill="none" stroke="#6F93F0" stroke-opacity=".55" stroke-width="2"/>
+<g clip-path="url(#hclip)">
+ <circle cx="94.38" cy="64.82" r="30" fill="url(#hglow)" opacity=".55"/>
+ <g filter="url(#hsoft)">
+  <path d="M22 81A38 38 0 0 1 69.45 44.19" transform="translate(0 3)" fill="none" stroke="#8193C4" stroke-width="13" stroke-linecap="round"/>
+  <path d="M82.34 50.26A38 38 0 0 1 98 81" transform="translate(0 3)" fill="none" stroke="#A83A00" stroke-width="13" stroke-linecap="round"/>
+  <path d="M22 81A38 38 0 0 1 69.45 44.19" fill="none" stroke="url(#hwhite)" stroke-width="13" stroke-linecap="round"/>
+  <path d="M82.34 50.26A38 38 0 0 1 98 81" fill="none" stroke="url(#horg)" stroke-width="13" stroke-linecap="round"/>
+ </g>
+ <path d="M22.07 78.61A38 38 0 0 1 67.12 43.67" transform="translate(0 -3.2)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+ <path d="M84.22 51.72A38 38 0 0 1 97.93 78.61" transform="translate(0 -3.2)" fill="none" stroke="#FFE0C4" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+ <path d="M40.58 66.89L45.44 70.42" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M52.58 58.17L54.44 63.88" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M67.42 58.17L65.56 63.88" stroke="#AFC2F0" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+ <g filter="url(#hsoft)">
+  <path d="M56.77 76.55L86.7 61.6L63.23 85.45Z" transform="translate(0 2.5)" fill="#A83A00" stroke="#A83A00" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M56.77 76.55L86.7 61.6L63.23 85.45Z" fill="url(#horg)" stroke="#FF8A33" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="60" cy="83.5" r="10" fill="#7183B8"/>
+  <circle cx="60" cy="81" r="10" fill="url(#hhub)"/>
+ </g>
+ <circle cx="60" cy="81" r="4" fill="#0A1F5C"/><circle cx="56.6" cy="76.8" r="2.2" fill="#fff" opacity=".9"/>
+ <path d="M94 29l2.6 6.4 6.4 2.6-6.4 2.6L94 47l-2.6-6.4L85 38l6.4-2.6z" fill="#fff" filter="url(#hsoft)"/>
+ <path d="M0 0H120V50C88 62 40 64 0 56Z" fill="url(#hgloss)" opacity=".6"/>
+</g></svg>
+    <div><h1>AI Career Stress Test</h1><p>Put any job under load. See which tasks AI and robots can already do, and what to do about it.</p></div>
+  </div>
+  <div class="invite">
+    <label for="testLink">Send this test to someone</label>
+    <div class="linkrow"><input id="testLink" readonly><button class="primary" id="copyLink" type="button">Copy link</button></div>
+    <button class="ghost" id="installBtn" type="button" hidden>Install the app</button>
+    <p class="hint" id="iosHint" hidden style="color:#E3ECFD">To install on iPhone: tap Share, then Add to Home Screen.</p>
+  </div>
+</div></header>
+
+<main class="gutter layout">
+  <div class="col">
+    <section class="panel">
+      <h2>Take the test</h2>
+      <div class="tabs">
+        <button type="button" id="tabAny" aria-pressed="true">Use any AI</button>
+        <button type="button" id="tabSelf" aria-pressed="false">Score it yourself</button>
+        <button type="button" id="tabAI" aria-pressed="false" disabled hidden>Ask Claude here</button>
+      </div>
+      <p class="hint" id="tabNote">No account needed. List your main tasks and answer four quick questions on each.</p>
+
+      <form id="anyForm" autocomplete="off" style="display:flex;flex-direction:column;gap:12px">
+        <div class="step">
+          <h3>1. Describe the job and copy the prompt</h3>
+          <div class="field"><label for="anyJob">Job title</label><input id="anyJob" maxlength="120" placeholder="e.g. Digital Marketer, Welder, Nurse"></div>
+          <div class="field"><label for="anyTasks">What you actually do (optional)</label><textarea id="anyTasks" maxlength="1500" placeholder="A typical week: main tasks, tools, who you work with."></textarea></div>
+          <div class="row">
+            <div class="field"><label for="anyLevel">Experience</label><select id="anyLevel"><option>Student / entry level</option><option selected>1–5 years</option><option>5–10 years</option><option>10+ years / supervisor</option><option>Business owner</option></select></div>
+            <div class="field"><label for="anyWhere">Country</label><input id="anyWhere" maxlength="60" placeholder="e.g. USA, Zimbabwe"></div>
+          </div>
+          <div class="actions"><button class="primary" id="copyPrompt" type="button">Copy prompt</button></div>
+          <span class="status" id="promptStatus" role="status"></span>
+          <details id="promptDetails"><summary>See the prompt</summary><textarea id="promptBox" readonly aria-label="Prompt to paste into an AI"></textarea></details>
+        </div>
+        <div class="step">
+          <h3>2. Paste it into the AI you use</h3>
+          <div class="ailinks">
+            <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>
+            <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>
+            <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Copilot</a>
+            <a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a>
+            <a href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+          </div>
+          <p class="hint">Muse or any other assistant works too. If it has a web search switch, turn it on so the scores use current evidence.</p>
+        </div>
+        <div class="step">
+          <h3>3. Paste its answer back here</h3>
+          <div class="field"><label for="anyName">Which AI answered?</label><input id="anyName" list="aiNames" maxlength="40" placeholder="e.g. ChatGPT"><datalist id="aiNames"><option value="ChatGPT"><option value="Gemini"><option value="Copilot"><option value="Claude"><option value="Muse"><option value="Perplexity"><option value="Grok"></datalist></div>
+          <div class="field"><label for="anyAnswer">The AI's answer</label><textarea id="anyAnswer" placeholder="Paste the whole reply here."></textarea></div>
+          <div class="actions"><button class="primary" type="submit">Add this answer</button><button class="ghost" id="clearAnswers" type="button" hidden>Clear answers</button></div>
+          <span class="status" id="anyStatus" role="status"></span>
+          <p class="hint">Add answers from two or more AIs to compare them. Nothing you paste leaves this page.</p>
+        </div>
+      </form>
+
+      <form id="selfForm" hidden autocomplete="off" style="display:flex;flex-direction:column;gap:12px">
+        <div class="field"><label for="selfJob">Job title</label><input id="selfJob" maxlength="120" placeholder="e.g. Nurse, Accountant, Electrician"></div>
+        <div id="rows" style="display:flex;flex-direction:column;gap:10px"></div>
+        <p class="hint" id="shareTotal"></p>
+        <div class="actions"><button class="ghost" id="addRow" type="button">Add a task</button><button class="primary" type="submit">See my result</button></div>
+        <span class="status" id="selfStatus" role="status"></span>
+      </form>
+
+      <form id="form" autocomplete="off" hidden style="flex-direction:column;gap:12px">
+        <div class="field"><label for="job">Job title</label><input id="job" maxlength="120" placeholder="e.g. Welder, Digital Marketer, Nurse"></div>
+        <div class="field"><label for="tasks">What you actually do (optional)</label><textarea id="tasks" maxlength="1500" placeholder="A typical week: main tasks, tools, who you work with."></textarea></div>
+        <div class="row">
+          <div class="field"><label for="level">Experience</label><select id="level"><option>Student / entry level</option><option selected>1–5 years</option><option>5–10 years</option><option>10+ years / supervisor</option><option>Business owner</option></select></div>
+          <div class="field"><label for="where">Country</label><input id="where" maxlength="60" placeholder="e.g. USA, Zimbabwe"></div>
+        </div>
+        <div class="actions"><button class="primary" id="run" type="submit">Run the test</button><button class="ghost" id="stop" type="button" hidden>Stop</button></div>
+        <span class="status" id="status" role="status"></span>
+      </form>
+    </section>
+  </div>
+  <div class="col" id="result" aria-live="polite"></div>
+</main>
+
+<section class="gutter" style="padding-block:0 48px"><div class="panel method">
+  <h2>How the score works</h2>
+  <ol>
+    <li><strong>Split the job into tasks.</strong> Jobs change one task at a time.</li>
+    <li><strong>Weight each task</strong> by its share of a working week.</li>
+    <li><strong>Score exposure 0–100:</strong> how much of the task AI software, agents or robots can do at equal or better quality and cost.</li>
+    <li><strong>Average by time.</strong> The overall score is the time-weighted average of the task scores.</li>
+  </ol>
+  <div class="modes">
+    <div class="c-automate"><strong>Automate</strong><br>AI or robots can do most of it.</div>
+    <div class="c-augment"><strong>Augment</strong><br>AI does part. You direct and check.</div>
+    <div class="c-human"><strong>Human-led</strong><br>Your judgment, hands or trust carry it.</div>
+  </div>
+  <p class="foot">Bands: under 30 low exposure for now · 30–59 partly exposed · 60+ largely exposed. Self-scoring weights: how repeatable 35, where it is done 30, consequence of error 20, need for trust 15. A task scoring 65+ counts as Automate, 35–64 as Augment, under 35 as Human-led. All scores are informed estimates, not predictions. Confirm any certification with the issuing body before enrolling.</p>
+</div></section>
+
+<script>
+const TEST_LINK="https://ai-career-stress-test.github.io/";
+const EXAMPLE = {
+  role:"Welder / Boilermaker",
+  summary:"Repeat production welding is already moving to robotic and cobot cells, and paperwork is moving to AI. Field, repair and site work in messy, unstructured places is still firmly human, and so is signing off on safety-critical work.",
+  tasks:[
+    {task:"Production welding of repeat joints (MIG / flux-core)",timeShare:25,exposure:70,mode:"automate",horizon:"now",why:"Cobot and robotic welding cells handle repeat joints on fixtured parts faster and more consistently, with a person loading, programming and checking."},
+    {task:"Inspection, QA and documentation",timeShare:10,exposure:60,mode:"augment",horizon:"now",why:"Vision systems and AI can flag visual defects and fill in reports. A certified inspector still signs off."},
+    {task:"Quoting, scheduling and client contact",timeShare:10,exposure:65,mode:"augment",horizon:"now",why:"AI drafts quotes from drawings and tracks schedules. The relationship and final price stay with you."},
+    {task:"Reading drawings, planning cuts and fit-up",timeShare:15,exposure:55,mode:"augment",horizon:"2-5y",why:"Software can generate cut lists and nesting from CAD, but checking real material and site conditions still takes a tradesman."},
+    {task:"Fitting, rigging and assembly on site",timeShare:20,exposure:25,mode:"human",horizon:"5-10y",why:"Every site is different. Robots still struggle with heavy, awkward, unstructured physical work."},
+    {task:"Field and repair welding in tight or awkward positions",timeShare:20,exposure:20,mode:"human",horizon:"5-10y",why:"Out-of-position repair on plant equipment needs hands, judgment and improvisation that robots cannot match yet."}
+  ],
+  humanEdge:["Judgment in messy, unpredictable site conditions","Accountability: a certified person signs off on safety-critical welds","Leading mixed-trade crews and keeping a job on schedule","Customer trust and repeat business"],
+  plan:{
+    handOff:["Learn to program, set up and run a cobot welding cell instead of competing with it","Let AI draft quotes, cut lists and reports, then check and approve them"],
+    doubleDown:["Become the go-to person for out-of-position, repair and code welding (pipe, pressure vessels)","Move toward inspection and supervision, where sign-off and responsibility sit with a human"],
+    prepare:["Expect AI vision inspection to spread. Get certified as the inspector who validates it","Track mobile welding robots for site work. Learn them early so you run them, not watch them"]
+  },
+  skills:[
+    {name:"Cobot / robotic welding programming",why:"The person who sets up and runs the robot keeps the job when production welding automates."},
+    {name:"Welding inspection and codes",why:"Inspection and sign-off move up in value as more welding is automated."},
+    {name:"Estimating with AI tools",why:"Faster, more accurate quotes win work for a fabrication business."}
+  ],
+  certifications:[
+    {name:"AWS Certified Welder",issuer:"American Welding Society",why:"Proves your skill to US employers on specific processes and positions."},
+    {name:"Certified Welding Inspector (CWI)",issuer:"American Welding Society",why:"Moves you toward the sign-off role that AI cannot hold."},
+    {name:"Collaborative robot welding training",issuer:"Robot makers such as FANUC or Universal Robots",why:"Hands-on proof you can program and run welding cobots."},
+    {name:"OSHA 30-Hour Construction",issuer:"OSHA Outreach Training Program",why:"Expected for site leads and supervisors in the US."}
+  ],
+  promptEngineering:"Helpful for quotes, emails and paperwork, but it is not your edge. Your edge is programming, running and certifying the machines, plus the field work they can't do yet."
+};
+
+
+const $=id=>document.getElementById(id);
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=String(text);return e;}
+const MODE={automate:{label:"Automate",cls:"c-automate",color:"var(--orange)"},augment:{label:"Augment",cls:"c-augment",color:"var(--sky)"},human:{label:"Human-led",cls:"c-human",color:"var(--navy)"}};
+const HORIZON={"now":"Now","2-5y":"2–5 yrs","5-10y":"5–10 yrs"};
+function clean(d){
+  const tasks=(Array.isArray(d.tasks)?d.tasks:[]).map(t=>({task:String(t.task||"Task"),timeShare:Math.max(0,Number(t.timeShare)||0),exposure:Math.min(100,Math.max(0,Math.round(Number(t.exposure)||0))),mode:MODE[t.mode]?t.mode:"augment",horizon:HORIZON[t.horizon]?t.horizon:"2-5y",why:String(t.why||"")})).filter(t=>t.task);
+  const total=tasks.reduce((s,t)=>s+t.timeShare,0);
+  tasks.forEach(t=>t.share=total>0?t.timeShare/total*100:100/(tasks.length||1));
+  const overall=Math.round(tasks.reduce((s,t)=>s+t.exposure*t.share/100,0));
+  const arr=x=>Array.isArray(x)?x:[];
+  return {role:String(d.role||"Your role"),summary:String(d.summary||""),tasks,overall,humanEdge:arr(d.humanEdge).map(String),plan:{handOff:arr(d.plan?.handOff).map(String),doubleDown:arr(d.plan?.doubleDown).map(String),prepare:arr(d.plan?.prepare).map(String)},skills:arr(d.skills),certifications:arr(d.certifications),promptEngineering:String(d.promptEngineering||""),sources:arr(d.sources).filter(x=>x&&/^https?:\/\//i.test(String(x.url||""))).slice(0,8).map(x=>({title:String(x.title||x.url),url:String(x.url)}))};
+}
+function verdict(n){
+  if(n>=60)return {t:"Largely exposed",cls:"c-automate",s:"Most of this job's time goes to tasks AI or robots can already do. Shift toward the parts that need you."};
+  if(n>=30)return {t:"Partly exposed",cls:"c-augment",s:"AI will take a real share of the work. Hand off those tasks and grow the human-led ones."};
+  return {t:"Low exposure for now",cls:"c-human",s:"Little of the job is exposed today. Use the time to prepare for the tasks that will be next."};
+}
+function list(items){const u=el("ul");items.forEach(i=>u.appendChild(el("li",null,i)));return u;}
+function panel(title){const p=el("section","panel");if(title)p.appendChild(el("h2",null,title));return p;}
+async function copy(text,field,btn){
+  const old=btn.textContent;
+  try{await navigator.clipboard.writeText(text);btn.textContent="Copied";}
+  catch(e){field.focus();field.select();btn.textContent="Press Ctrl+C";}
+  setTimeout(()=>btn.textContent=old,1800);
+}
+function render(raw,source,opts){opts=opts||{};
+  const d=clean(raw),v=verdict(d.overall),out=$("result");out.replaceChildren();
+  const sorted=[...d.tasks].sort((a,b)=>b.exposure-a.exposure);
+  const top=panel();
+  top.appendChild(el("span","tag",source));
+  top.appendChild(el("h2",null,d.role));
+  const r=el("div","readout"),s=el("div","score",d.overall);s.appendChild(el("small",null,"/100"));r.appendChild(s);
+  const side=el("div");side.style.cssText="display:flex;flex-direction:column;gap:8px;min-width:0";
+  side.appendChild(el("span","verdict "+v.cls,v.t));side.appendChild(el("p",null,v.s));if(d.summary)side.appendChild(el("p","hint",d.summary));
+  r.appendChild(side);top.appendChild(r);
+  const sc=el("div","scale"),pin=el("div","pin");pin.style.left=d.overall+"%";sc.appendChild(pin);
+  const tr=el("div","track");[[30,"var(--navy)"],[30,"var(--sky)"],[40,"var(--orange)"]].forEach(([w,c])=>{const i=el("i");i.style.width=w+"%";i.style.background=c;tr.appendChild(i);});sc.appendChild(tr);
+  [0,30,60,100].forEach(n=>{const t=el("span","tick"+(n===100?" end":""),n);t.style.left=n+"%";sc.appendChild(t);});top.appendChild(sc);
+  const by={"now":0,"2-5y":0,"5-10y":0};d.tasks.forEach(t=>by[t.horizon]+=t.share);
+  const stats=el("div","stats");[["now","of the week is exposed now"],["2-5y","reached in 2–5 years"],["5-10y","reached in 5–10 years"]].forEach(([k,l])=>{const b=el("div","stat");b.appendChild(el("b",null,Math.round(by[k])+"%"));b.appendChild(el("span",null,l));stats.appendChild(b);});top.appendChild(stats);
+  out.appendChild(top);
+  if(opts.compare)out.appendChild(opts.compare);
+
+  const prof=panel("Load profile");prof.appendChild(el("p","hint","Each column is one task. Width is its share of the week. Height is its exposure. More area means more of your score."));
+  const chart=el("div","chart"),y=el("div","yaxis"),plot=el("div","plot");
+  [0,30,60,100].forEach(n=>{const l=el("span",null,n);l.style.bottom=n+"%";y.appendChild(l);if(n){const h=el("hr");h.style.bottom=n+"%";plot.appendChild(h);}});
+  const xa=el("div","xaxis");
+  sorted.forEach((t,i)=>{const c=el("div","col-bar");c.style.flex=t.share+" 1 0";c.style.height=Math.max(t.exposure,1)+"%";c.style.background=MODE[t.mode].color;c.title=t.task+": "+t.exposure;const b=el("b",null,t.exposure>=14?t.exposure:"");b.style.color=t.mode==="human"?"var(--white)":"var(--navy)";c.appendChild(b);plot.appendChild(c);const x=el("span",null,i+1);x.style.flex=t.share+" 1 0";xa.appendChild(x);});
+  chart.append(y,plot,xa);prof.appendChild(chart);
+  const sums={automate:0,augment:0,human:0};d.tasks.forEach(t=>sums[t.mode]+=t.share);
+  const lg=el("div","legend");Object.keys(MODE).forEach(k=>{const a=el("span"),i=el("i");i.style.background=MODE[k].color;a.appendChild(i);a.append(`${MODE[k].label} ${Math.round(sums[k])}% of week`);lg.appendChild(a);});prof.appendChild(lg);
+  out.appendChild(prof);
+
+  const tp=panel("Task by task"),tl=el("div");
+  sorted.forEach((t,i)=>{const w=el("div","task");w.appendChild(el("div","n",i+1));w.appendChild(el("div","name",t.task));w.appendChild(el("div","pct",t.exposure));const m=el("div","meta");m.appendChild(el("span","chip "+MODE[t.mode].cls,MODE[t.mode].label));m.appendChild(el("span","chip c-plain",HORIZON[t.horizon]));m.appendChild(el("span","chip c-plain",Math.round(t.share)+"% of week"));w.appendChild(m);if(t.why)w.appendChild(el("p","why",t.why));tl.appendChild(w);});
+  tp.appendChild(tl);out.appendChild(tp);
+
+  const pl=panel("Your action plan"),lanes=el("div","lanes");
+  [["var(--orange)","Hand off and supervise","For tasks AI can take",d.plan.handOff],["var(--navy)","Double down","Where your human edge is",d.plan.doubleDown],["var(--sky)","Get ready","For what is exposed next",d.plan.prepare]].forEach(([c,t,sub,items])=>{if(!items.length)return;const l=el("div","lane"),b=el("span");b.style.background=c;l.appendChild(b);const h=el("div");h.appendChild(el("h3",null,t));h.appendChild(el("span","hint",sub));l.appendChild(h);l.appendChild(list(items));lanes.appendChild(l);});
+  pl.appendChild(lanes);
+  if(d.humanEdge.length){pl.appendChild(el("h3",null,"Your human edge"));pl.appendChild(list(d.humanEdge));}
+  out.appendChild(pl);
+
+  if(d.skills.length||d.certifications.length||d.promptEngineering){
+    const sk=panel("Skills and certifications");
+    if(d.skills.length){const g=el("div","cards");d.skills.forEach(x=>{const c=el("div","card");c.appendChild(el("strong",null,x.name||""));c.appendChild(el("p",null,x.why||""));g.appendChild(c);});sk.appendChild(g);}
+    if(d.certifications.length){const g=el("div","cards");d.certifications.forEach(x=>{const c=el("div","card");c.appendChild(el("strong",null,x.name||""));c.appendChild(el("span","who",x.issuer||""));c.appendChild(el("p",null,x.why||""));g.appendChild(c);});sk.appendChild(g);}
+    if(d.promptEngineering){const pe=el("div","pe");pe.appendChild(el("strong",null,"Is prompt engineering the answer?"));pe.append(d.promptEngineering);sk.appendChild(pe);}
+    out.appendChild(sk);
+  }
+
+  if(d.sources.length){const sp=panel("Sources the AI used");sp.appendChild(el("p","hint","Links the AI says it relied on. Open them to check its claims."));const ul=el("ol","srcs");d.sources.forEach(x=>{const li=el("li"),a=el("a",null,x.title);a.href=x.url;a.target="_blank";a.rel="noopener";li.appendChild(a);ul.appendChild(li);});sp.appendChild(ul);out.appendChild(sp);}
+  const isEx=source.startsWith("Example");
+  const msg=isEx?`How exposed is your job to AI and robots? Take the AI Career Stress Test: ${TEST_LINK}`:(opts.share?`I scored ${opts.share.score}/100 on the AI Career Stress Test as ${d.role}, averaged across ${opts.share.n} AIs (${verdict(opts.share.score).t.toLowerCase()}). How exposed is your job? ${TEST_LINK}`:`I scored ${d.overall}/100 on the AI Career Stress Test as ${d.role} (${v.t.toLowerCase()}). How exposed is your job? ${TEST_LINK}`);
+  const sh=panel(isEx?"Share the test":"Share your result");sh.classList.add("sharecard");
+  sh.appendChild(el("p","hint",isEx?"Send people this message so they can test their own job.":"Your answers stay on this page. Only the text below is shared."));
+  const ta=el("textarea");ta.id="shareText";ta.readOnly=true;ta.value=msg;ta.setAttribute("aria-label","Message to share");sh.appendChild(ta);
+  const ac=el("div","actions"),bt=el("button","primary","Copy message");bt.type="button";bt.onclick=()=>copy(msg,ta,bt);ac.appendChild(bt);
+  [["WhatsApp","https://wa.me/?text="+encodeURIComponent(msg)],["LinkedIn","https://www.linkedin.com/feed/?shareActive=true&text="+encodeURIComponent(msg)]].forEach(([n,h])=>{const a=el("a",null,n);a.href=h;a.target="_blank";a.rel="noopener";ac.appendChild(a);});
+  sh.appendChild(ac);out.appendChild(sh);
+}
+
+/* Self-scoring: works for every visitor, with no AI call. */
+const Q=[
+  {k:"rep",w:35,l:"Does it repeat?",o:["Different every time","Some pattern","Same steps each time"],say:["varies every time","follows a partial pattern","repeats the same way"]},
+  {k:"med",w:30,l:"Where is it done?",o:["Unpredictable site","Controlled space","On a screen"],say:["happens in unpredictable places","happens in a controlled space","is done on a screen"]},
+  {k:"risk",w:20,l:"If it goes wrong?",o:["Serious, needs sign-off","Someone reviews it","Easy to fix"],say:["carries serious consequences","gets reviewed by someone","is easy to fix if wrong"]},
+  {k:"trust",w:15,l:"Does it need trust?",o:["Trust is the job","It helps","Not needed"],say:["depends on people's trust","benefits from trust","does not depend on trust"]}
+];
+function scoreTask(a){
+  const exposure=Math.round(Q.reduce((s,q)=>s+q.w*a[q.k]/2,0));
+  const mode=exposure>=65?"automate":exposure>=35?"augment":"human";
+  const horizon=exposure>=65||(exposure>=35&&a.med===2)?"now":exposure>=35?"2-5y":"5-10y";
+  return {exposure,mode,horizon};
+}
+function buildSelf(job,rows){
+  const tasks=rows.map(r=>({task:r.name,timeShare:r.share,...scoreTask(r),why:`This task ${Q.map(q=>q.say[r[q.k]]).join(", ")}.`}));
+  const of=m=>tasks.filter(t=>t.mode===m).map(t=>t.task);
+  const asc=[...rows].map(r=>({...r,e:scoreTask(r).exposure})).sort((a,b)=>b.e-a.e);
+  const handOff=of("automate").slice(0,3).map(t=>`Find the AI tool or machine that can do "${t}", learn to run it, and check its output.`);
+  if(!handOff.length)handOff.push(`Try AI on the most repetitive part of "${asc[0].name}" and judge the result yourself.`);
+  const doubleDown=of("human").slice(0,3).map(t=>`Get known as the best person for "${t}".`);
+  if(!doubleDown.length)doubleDown.push("Move toward the work where you approve, decide or answer for the result.");
+  const prepare=of("augment").slice(0,3).map(t=>`Learn the AI tools now reaching "${t}" before they become the standard.`);
+  if(!prepare.length)prepare.push(`Watch for new tools aimed at "${asc[0].name}" and retest every 6 to 12 months.`);
+  const edge=[];rows.forEach(r=>{if(r.risk===0)edge.push(`Taking responsibility for "${r.name}"`);if(r.med===0)edge.push(`Hands-on skill in "${r.name}"`);if(r.trust===0)edge.push(`The trust people place in you for "${r.name}"`);});
+  const m=asc[0];
+  return {role:job,summary:`"${m.name}" is your most exposed task. Rerun this test every 6 to 12 months, because the tools keep changing.`,tasks,humanEdge:[...new Set(edge)].slice(0,4),plan:{handOff,doubleDown,prepare},
+    skills:[{name:"Checking AI's work",why:"Someone who knows the field has to catch its mistakes."},{name:"Deep knowledge of your field",why:"You can only direct and judge AI if you know the work better than it does."},{name:"Learning new tools quickly",why:"Tools will change every year, not once in a career."}],certifications:[],
+    promptEngineering:"Useful, but not enough alone. Judgment, accountability and knowing your field last longer than any way of phrasing a request."};
+}
+let uid=0;
+function addRow(name){
+  const n=++uid,box=el("div","trow");box.dataset.id=n;
+  const top=el("div","top");
+  const f1=el("div","field"),l1=el("label",null,"Task");l1.htmlFor="tn"+n;const i1=el("input");i1.id="tn"+n;i1.maxLength=100;i1.placeholder="e.g. Writing weekly reports";if(name)i1.value=name;f1.append(l1,i1);
+  const f2=el("div","field"),l2=el("label",null,"% of week");l2.htmlFor="ts"+n;const i2=el("input");i2.id="ts"+n;i2.type="number";i2.min=0;i2.max=100;i2.value=25;i2.oninput=total;f2.append(l2,i2);
+  top.append(f1,f2);box.appendChild(top);
+  const g=el("div","row");Q.forEach(q=>{const f=el("div","field"),l=el("label",null,q.l);l.htmlFor=q.k+n;const s=el("select");s.id=q.k+n;q.o.forEach((o,v)=>{const p=el("option",null,o);p.value=v;s.appendChild(p);});s.value=1;f.append(l,s);g.appendChild(f);});box.appendChild(g);
+  const rm=el("button","rm","Remove task");rm.type="button";rm.onclick=()=>{box.remove();total();sync();};box.appendChild(rm);
+  $("rows").appendChild(box);total();sync();
+}
+function sync(){const c=$("rows").children.length;$("addRow").disabled=c>=8;[...$("rows").querySelectorAll(".rm")].forEach(b=>b.hidden=c<=1);}
+function total(){const t=[...$("rows").querySelectorAll('input[type=number]')].reduce((s,i)=>s+(Number(i.value)||0),0);$("shareTotal").textContent=`Your shares add up to ${t}%. The test scales them to 100% for you.`;}
+for(let i=0;i<3;i++)addRow();
+$("addRow").onclick=()=>addRow();
+function showResult(){if(window.matchMedia("(max-width:940px)").matches)$("result").scrollIntoView({behavior:"smooth",block:"start"});}
+$("selfForm").addEventListener("submit",e=>{
+  e.preventDefault();const st=$("selfStatus");st.className="status err";
+  const job=$("selfJob").value.trim();if(!job){st.textContent="Enter your job title to see a result.";$("selfJob").focus();return;}
+  const rows=[...$("rows").children].map(b=>{const n=b.dataset.id,r={name:$("tn"+n).value.trim(),share:Math.max(0,Number($("ts"+n).value)||0)};Q.forEach(q=>r[q.k]=Number($(q.k+n).value));return r;}).filter(r=>r.name);
+  if(!rows.length){st.textContent="Name at least one task to see a result.";return;}
+  st.textContent="";render(buildSelf(job,rows),"Self-scored");showResult();
+});
+
+function promptFor(job,tasks,level,where){
+  return `You are a labor-market analyst assessing how exposed a job is to AI and robotics, as of late 2026. Consider generative AI, autonomous AI agents that research and complete multi-step work, computer vision, and physical robots and cobots (including humanoid and mobile robots being piloted for cleaning, warehouse and trade work). Be honest and specific, neither alarmist nor falsely reassuring. Physical and trade jobs are NOT automatically safe.
+
+Person:
+- Job title: ${job}
+- What they do: ${tasks||"(not given — use the typical duties of this job)"}
+- Experience: ${level}
+- Country/market: ${where||"(not given)"}
+
+Steps:
+1. Break the job into 5–8 core tasks that together make up a working week.
+2. For each task give: timeShare (percent of the week, all tasks summing to 100), exposure (0–100: how much of the task AI software, agents or robots can do today or within the horizon at equal or better quality and cost), mode ("automate" if AI/robots can do most of it, "augment" if AI does part and a human directs and checks, "human" if human judgment, hands or trust carry it), horizon ("now", "2-5y" or "5-10y" for when the exposure becomes real in practice), and why (one plain sentence naming the actual technology).
+3. Name 3–5 parts of this job that stay human (humanEdge).
+4. Write an action plan: handOff (2–3 actions for tasks AI can take: how to delegate to, run or supervise the AI), doubleDown (2–3 actions to grow the human-led parts), prepare (2–3 actions to get ready for tasks that become exposed later).
+5. List 3 skills to build, and 3–4 certifications. Only name certifications that really exist, with the real issuing body, relevant to the stated country if given.
+6. In one or two sentences, say whether prompt engineering is the answer for this job and what matters more.
+
+Reply with ONLY a JSON object in exactly this shape:
+{"role":string,"summary":string (2 sentences),"tasks":[{"task":string,"timeShare":number,"exposure":number,"mode":"automate"|"augment"|"human","horizon":"now"|"2-5y"|"5-10y","why":string}],"humanEdge":[string],"plan":{"handOff":[string],"doubleDown":[string],"prepare":[string]},"skills":[{"name":string,"why":string}],"certifications":[{"name":string,"issuer":string,"why":string}],"promptEngineering":string}
+Keep every string short and plain. No markdown.`;
+}
+
+
+const ERR={rate_limited:"Too many requests right now. Wait a minute and run it again.",session_expired:"You've been signed out. Sign in again, then rerun.",refused:"Claude declined that input. Try rewording the job description.",invalid_json:"The result came back in the wrong format. Run it again.",empty_completion:"No result came back. Try a shorter description."};
+const DEAD=["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"];
+let sample=null,ctl=null,touched=false;
+const PANES={any:["anyForm","tabAny","Works with ChatGPT, Gemini, Copilot, Muse or any AI. Copy a prompt, run it there with web search on, then paste the answer back."],self:["selfForm","tabSelf","No account needed. List your main tasks and answer four quick questions on each."],ai:["form","tabAI","Claude splits the job into tasks and scores it right here. It uses your own Claude account and asks your permission the first time."]};
+function setTab(name,user){if(user)touched=true;for(const k in PANES){const[f,t]=PANES[k],on=k===name;$(f).hidden=!on;$(f).style.display=on?"flex":"";$(t).setAttribute("aria-pressed",String(on));}$("tabNote").textContent=PANES[name][2];}
+function dropAI(msg){sample=null;$("tabAI").disabled=true;setTab("any");$("anyStatus").className="status";$("anyStatus").textContent=msg;}
+$("tabAny").onclick=()=>setTab("any",true);$("tabSelf").onclick=()=>setTab("self",true);$("tabAI").onclick=()=>setTab("ai",true);setTab("any");
+$("testLink").value=TEST_LINK;$("copyLink").onclick=()=>copy(TEST_LINK,$("testLink"),$("copyLink"));
+render(EXAMPLE,"Example result: welder / boilermaker");
+(async()=>{try{sample=await window.claude?.use?.("sample");}catch(e){sample=null;}
+  if(sample)$("tabAI").disabled=false;
+})();
+$("stop").onclick=()=>ctl?.abort();
+$("form").addEventListener("submit",async e=>{
+  e.preventDefault();if(!sample)return;
+  const st=$("status"),job=$("job").value.trim();if(!job){st.className="status err";st.textContent="Enter your job title to run the test.";$("job").focus();return;}
+  ctl=new AbortController();$("run").disabled=true;$("stop").hidden=false;st.className="status";st.textContent="Running the test. This can take up to a minute.";
+  try{
+    const data=await sample.json(promptFor(job,$("tasks").value.trim(),$("level").value,$("where").value.trim()),{signal:ctl.signal,modelTier:"default"});
+    if(!data||!Array.isArray(data.tasks)||!data.tasks.length)throw {code:"invalid_json"};
+    render(data,"Scored by Claude");st.textContent="Done.";showResult();
+  }catch(err){
+    const code=err&&err.code;
+    if(code==="cancelled")st.textContent="Stopped.";
+    else if(DEAD.includes(code))dropAI("Claude isn't available here. Use any other AI below, or score the job yourself.");
+    else{st.className="status err";st.textContent=ERR[code]||"Claude couldn't be reached. Run it again in a moment.";}
+  }finally{$("stop").hidden=true;$("run").disabled=false;}
+});
+
+/* Use any AI: the page writes the prompt; the person runs it in the AI they use and pastes the answer back. */
+function anyPrompt(job,tasks,level,where){
+  return promptFor(job,tasks,level,where)
+    .replace("Steps:\n","Before you answer, search the web for current evidence about AI, agents and robots in this job: product launches, studies and how employers are using them. Base your scores on what you find.\n\nSteps:\n")
+    .replace("\n\nReply with ONLY","\n7. In sources, list the 3–6 web pages you relied on most, with their real URLs.\n\nReply with ONLY")
+    .replace(',"promptEngineering":string}',',"promptEngineering":string,"sources":[{"title":string,"url":string}]}')
+    .replace("Keep every string short and plain. No markdown.","Keep every string short and plain. Put the whole JSON object in one code block and write nothing else.");
+}
+function parseAnswer(t){
+  t=String(t).trim();const fence=t.match(/```(?:json)?\s*([\s\S]*?)```/i);if(fence)t=fence[1];
+  const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<=a)throw new Error("no json");
+  const j=t.slice(a,b+1);
+  try{return JSON.parse(j);}catch(e){return JSON.parse(j.replace(/[“”]/g,'"').replace(/,\s*([}\]])/g,"$1"));}
+}
+const answers=[];
+function bandColor(n){return n>=60?"var(--orange)":n>=30?"var(--sky)":"var(--navy)";}
+function comparePanel(sel){
+  const p=panel("Compare the AIs"),sc=answers.map(a=>a.overall),avg=Math.round(sc.reduce((x,y)=>x+y,0)/sc.length),spread=Math.max(...sc)-Math.min(...sc);
+  p.appendChild(el("p",null,`Average of ${answers.length} AIs: ${avg}/100, ${verdict(avg).t.toLowerCase()}. Their scores are ${spread} points apart.`));
+  if(spread>=20)p.appendChild(el("p","hint","That is a big gap. Read each AI's task list before you act on the result."));
+  p.appendChild(el("p","hint","Select an AI to see its full breakdown."));
+  answers.forEach((a,i)=>{const r=el("button","cmp"+(i===sel?" on":""));r.type="button";r.setAttribute("aria-pressed",String(i===sel));r.appendChild(el("span","nm",a.ai));const tr=el("span","tr"),f=el("i");f.style.width=a.overall+"%";f.style.background=bandColor(a.overall);tr.appendChild(f);r.appendChild(tr);r.appendChild(el("b",null,a.overall));r.onclick=()=>show(i);p.appendChild(r);});
+  return {p,avg};
+}
+function show(i){
+  const a=answers[i];
+  if(answers.length>1){const c=comparePanel(i);render(a.raw,`Scored by ${a.ai}`,{compare:c.p,share:{score:c.avg,n:answers.length}});}
+  else render(a.raw,`Scored by ${a.ai}`);
+}
+$("copyPrompt").onclick=async()=>{
+  const st=$("promptStatus"),job=$("anyJob").value.trim();
+  if(!job){st.className="status err";st.textContent="Enter your job title first.";$("anyJob").focus();return;}
+  const pr=anyPrompt(job,$("anyTasks").value.trim(),$("anyLevel").value,$("anyWhere").value.trim());
+  $("promptBox").value=pr;st.className="status";
+  try{await navigator.clipboard.writeText(pr);st.textContent="Copied. Paste it into an AI in step 2.";}
+  catch(e){$("promptDetails").open=true;$("promptBox").focus();$("promptBox").select();st.textContent="Press Ctrl+C (Cmd+C on a Mac) to copy the selected prompt.";}
+};
+$("anyForm").addEventListener("submit",e=>{
+  e.preventDefault();const st=$("anyStatus");st.className="status err";
+  const txt=$("anyAnswer").value;if(!txt.trim()){st.textContent="Paste the AI's answer first.";$("anyAnswer").focus();return;}
+  if(answers.length>=6){st.textContent="You can compare up to 6 answers. Clear them to start again.";return;}
+  let data;try{data=parseAnswer(txt);}catch(x){st.textContent="That answer couldn't be read. Ask the AI to reply with only the JSON in one code block, then paste it again.";return;}
+  if(!data||!Array.isArray(data.tasks)||!data.tasks.length){st.textContent="That answer has no task list. Ask the AI to follow the prompt's format, then paste it again.";return;}
+  if(!data.role)data.role=$("anyJob").value.trim()||"Your role";
+  const ai=$("anyName").value.trim()||`AI ${answers.length+1}`;
+  answers.push({ai,raw:data,overall:clean(data).overall});
+  $("anyAnswer").value="";$("anyName").value="";$("clearAnswers").hidden=false;
+  st.className="status";st.textContent=answers.length>1?`Added. Comparing ${answers.length} AIs.`:"Added. Paste another AI's answer to compare.";
+  show(answers.length-1);showResult();
+});
+$("clearAnswers").onclick=()=>{answers.length=0;$("clearAnswers").hidden=true;$("anyStatus").className="status";$("anyStatus").textContent="Answers cleared.";render(EXAMPLE,"Example result: welder / boilermaker");};
+
+/* Installable app */
+let deferredInstall=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("installBtn").hidden=false;});
+$("installBtn").onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice;}catch(e){}deferredInstall=null;$("installBtn").hidden=true;};
+addEventListener("appinstalled",()=>{$("installBtn").hidden=true;});
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!matchMedia("(display-mode: standalone)").matches)$("iosHint").hidden=false;
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+
+</body>
+</html>
