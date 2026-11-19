@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (anonymous visit counts) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TK867BVD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Free business advisor. Describe your business, get next steps checked against current news and industry data, using ChatGPT, Gemini, Copilot, Claude or any AI.">
+<meta name="theme-color" content="#1546C0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Venture Compass">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Venture Compass">
+<meta property="og:description" content="Where is your business heading? Get next steps checked against current news and industry data.">
+<meta property="og:url" content="https://ai-career-stress-test.github.io/venture-compass/">
+<meta property="og:image" content="https://ai-career-stress-test.github.io/venture-compass/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Venture Compass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a blue masthead, the test bench on the left, the result dashboard on the right. Single look: blue, orange, white. */
+:root{
+  --blue:#1546C0; --navy:#0B2A6F; --sky:#7FB0F7; --sky-bg:#DCE9FD;
+  --orange:#F26A1B; --orange-ink:#B44400; --orange-bg:#FEE9DC;
+  --white:#FFFFFF; --tint:#F2F6FE; --line:#D5E0F3; --ink:#0B2A6F; --muted:#4A5B80;
+  --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--tint);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+h1,h2,h3,p{margin:0}h1,h2,h3{text-wrap:balance}
+.gutter{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mast{background:var(--blue);color:var(--white)}
+.mast .gutter{padding-block:26px;display:flex;flex-wrap:wrap;gap:20px 32px;align-items:center;justify-content:space-between}
+.brand{display:flex;gap:18px;align-items:center;min-width:0;flex:1 1 420px}
+.brand svg{width:84px;height:91px;flex:none}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,6vw,54px);line-height:1;letter-spacing:.01em;text-transform:uppercase}
+.mast p{max-width:58ch;color:#E3ECFD;font-size:15px;margin-top:4px}
+.invite{display:flex;flex-direction:column;gap:6px;flex:0 1 340px;min-width:0}
+.invite label{font-size:13px;font-weight:600;color:var(--white)}
+.linkrow{display:flex;gap:8px}
+.linkrow input{flex:1;min-width:0;font:13px var(--mono)}
+.layout{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:20px;align-items:start;padding-block:22px 48px}
+@media (max-width:940px){.layout{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+h2{font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:.02em;text-transform:uppercase;line-height:1.1}
+h3{font-size:15px;font-weight:700}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted)}
+label{font-weight:600;font-size:14px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+input,textarea,select{font:inherit;font-size:16px;color:var(--ink);background:var(--white);border:1px solid #B9C9E6;border-radius:6px;padding:9px 11px;width:100%;min-width:0}
+textarea{min-height:84px;resize:vertical}
+:is(input,textarea,select,button,a,summary):focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;background:var(--sky-bg);padding:4px;border-radius:8px}
+.tabs button{border:0;background:transparent;color:var(--navy);padding:9px 6px;font-size:14px}
+.tabs button[aria-pressed=true]{background:var(--blue);color:var(--white)}
+.tabs button:disabled{color:var(--muted);opacity:.7}
+button{font:inherit;font-weight:700;border-radius:6px;padding:11px 18px;cursor:pointer;border:1px solid transparent}
+.primary{background:var(--orange);color:var(--navy)}
+.primary:hover{background:#FF8034}
+.ghost{background:var(--white);color:var(--blue);border-color:var(--blue)}
+.mast .ghost{border-color:var(--white)}
+button:disabled{opacity:.55;cursor:default}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.status{font-size:14px;color:var(--muted)}.status.err{color:var(--orange-ink);font-weight:600}
+.trow{border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:9px;background:var(--tint)}
+.trow .top{display:grid;grid-template-columns:1fr 78px;gap:8px}
+.trow select{font-size:14px;padding:7px 8px}.trow label{font-size:12.5px}
+.trow .rm{align-self:flex-start;background:none;border:0;padding:0;color:var(--blue);font-size:13px;font-weight:600;text-decoration:underline}
+.readout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 28px;align-items:center}
+@media (max-width:560px){.readout{grid-template-columns:minmax(0,1fr)}}
+.score{font-family:var(--display);font-weight:700;font-size:136px;line-height:.85;color:var(--blue);font-variant-numeric:tabular-nums}
+.score small{font-size:28px;color:var(--muted);margin-left:4px}
+.verdict{display:inline-block;align-self:flex-start;font-family:var(--display);font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.03em;padding:2px 12px;border-radius:5px}
+.tag{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:var(--orange-bg);color:var(--orange-ink)}
+.scale{position:relative;padding-top:15px;padding-bottom:20px}
+.track{display:flex;height:12px;border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%}
+.pin{position:absolute;top:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--navy);transform:translateX(-8px)}
+.tick{position:absolute;bottom:0;font:11px var(--mono);color:var(--muted);transform:translateX(-50%)}
+.tick:first-of-type{transform:none}.tick.end{transform:translateX(-100%)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--tint);border-radius:6px;padding:10px 12px;min-width:0}
+.stat b{display:block;font:700 30px/1 var(--display);font-variant-numeric:tabular-nums;color:var(--navy)}
+.stat span{font-size:12.5px;color:var(--muted)}
+.chart{display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 6px}
+.yaxis{position:relative;height:190px}
+.yaxis span{position:absolute;right:0;font:11px var(--mono);color:var(--muted);transform:translateY(50%)}
+.plot{position:relative;height:190px;border-bottom:2px solid var(--navy);display:flex;align-items:flex-end;gap:2px}
+.plot hr{position:absolute;left:0;right:0;margin:0;border:0;border-top:1px dashed #AFC2E3}
+.col-bar{position:relative;min-width:0}
+.col-bar b{position:absolute;top:6px;left:0;right:0;text-align:center;font:600 13px var(--mono)}
+.xaxis{grid-column:2;display:flex;gap:2px;font:12px var(--mono);color:var(--muted);padding-top:4px}
+.xaxis span{min-width:0;text-align:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.task{display:grid;grid-template-columns:26px minmax(0,1fr) 44px;gap:3px 8px;padding:13px 0;border-top:1px solid var(--line)}
+.task:first-child{border-top:0;padding-top:0}
+.task .n{font:13px var(--mono);color:var(--muted);padding-top:2px}
+.task .name{font-weight:600}
+.task .pct{font:700 25px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.task .meta,.task .why{grid-column:2/-1}
+.task .meta{display:flex;flex-wrap:wrap;gap:6px}.task .why{font-size:14px;color:var(--muted)}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
+.c-automate{background:var(--orange);color:var(--navy)}.c-augment{background:var(--sky);color:var(--navy)}.c-human{background:var(--navy);color:var(--white)}
+.c-plain{background:var(--tint);color:var(--muted)}
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.lane{display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--tint);border-radius:6px;padding:14px}
+.lane>span{height:5px;width:36px;border-radius:2px}
+ul,ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.card .who{font:12px var(--mono);color:var(--muted)}.card p{font-size:14px;color:var(--muted)}
+.pe{background:var(--sky-bg);border-radius:6px;padding:14px;font-size:14px}.pe strong{display:block}
+.sharecard{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.sharecard h2{color:var(--white)}.sharecard p.hint{color:#D7E3FB}
+.sharecard a{display:inline-block;font-weight:700;border-radius:6px;padding:11px 18px;background:var(--white);color:var(--blue);text-decoration:none}
+.method{gap:12px}.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}.modes div{padding:10px 12px;border-radius:6px;font-size:13px}
+.foot{font-size:12.5px;color:var(--muted)}
+.step{display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.step:first-child{border-top:0;padding-top:0}
+.ailinks{display:flex;flex-wrap:wrap;gap:8px}
+.ailinks a{border:1px solid var(--blue);color:var(--blue);background:var(--white);border-radius:6px;padding:7px 12px;font-weight:700;font-size:14px;text-decoration:none}
+.ailinks a:hover{background:var(--sky-bg)}
+details summary{cursor:pointer;color:var(--blue);font-weight:600;font-size:14px}
+details textarea{margin-top:8px;font:12px/1.5 var(--mono);min-height:140px}
+.cmp{display:grid;grid-template-columns:minmax(0,120px) minmax(0,1fr) 40px;gap:10px;align-items:center;width:100%;text-align:left;background:var(--tint);border:2px solid transparent;color:var(--ink);padding:10px 12px;font-weight:600}
+.cmp.on{border-color:var(--blue);background:var(--white)}
+.cmp .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmp .tr{height:10px;background:var(--line);border-radius:3px;overflow:hidden}.cmp .tr i{display:block;height:100%}
+.cmp b{font:700 22px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.srcs{display:flex;flex-direction:column;gap:6px;margin:0;padding-left:19px}.srcs a{color:var(--blue);word-break:break-word}
+@media (prefers-reduced-motion:no-preference){.col-bar{transition:height .5s ease}}
+
+/* Venture Compass additions */
+.sister{color:#FFFFFF;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.files{border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;margin:0;min-width:0}
+.files legend{font-weight:600;font-size:14px;padding:0 4px}
+.files label{font-weight:400;display:flex;gap:8px;align-items:center}
+.files input,.ack input{width:auto;flex:none}
+.warn{background:var(--orange-bg);border:1px solid #F7B48A;border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.warn strong{color:var(--orange-ink)}
+.ack{display:flex;gap:8px;align-items:flex-start;font-weight:700}
+.ack input{margin-top:3px}
+.areas{display:flex;flex-direction:column;gap:12px}
+.area{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr) 46px;gap:4px 10px;align-items:center}
+.area .an{font-weight:600;font-size:14px}
+.area .tr{height:10px;background:var(--line);border-radius:3px;overflow:hidden}.area .tr i{display:block;height:100%}
+.area b{font:700 18px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.area .note{grid-column:1/-1;font-size:13px;color:var(--muted)}
+@media (max-width:520px){.area{grid-template-columns:minmax(0,1fr) 46px}.area .tr{grid-column:1/-1;grid-row:2}.area .note{grid-row:3}}
+.steps{gap:16px;padding-left:22px}
+.steps li{display:flex;flex-direction:column;gap:6px}
+.steps .meta{display:flex;flex-wrap:wrap;gap:6px}.steps .why{font-size:14px;color:var(--muted)}
+.card .chip{align-self:flex-start}
+.card a{color:var(--blue);font-weight:600;font-size:14px}
+.alerts{display:flex;flex-direction:column;gap:8px}
+.alert{display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--tint);border-radius:6px;padding:8px 10px}
+.alert code{font:13px var(--mono);overflow-wrap:anywhere;min-width:0}
+.small{padding:6px 12px;font-size:13px}
+.btnlink{align-self:flex-start;font-weight:700;color:var(--blue)}
+@media print{
+  .mast,.layout>.col:first-child,.method-wrap,.sharecard,#result>.panel:has(button.primary){display:none!important}
+  body{background:#FFFFFF}.layout{display:block;padding:0}.panel{break-inside:avoid;border:1px solid #CCCCCC;margin-bottom:12px}
+}
+</style>
+</head>
+<body>
+<header class="mast"><div class="gutter">
+  <div class="brand">
+    <svg viewBox="-14 -10 148 160" aria-hidden="true"><defs>
+<linearGradient id="htile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A4FB8"/><stop offset=".45" stop-color="#11307F"/><stop offset="1" stop-color="#081A52"/></linearGradient>
+<linearGradient id="hside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#061244"/><stop offset="1" stop-color="#020822"/></linearGradient>
+<linearGradient id="hgloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="hwhite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#EEF3FF"/><stop offset="1" stop-color="#B9C8EC"/></linearGradient>
+<linearGradient id="horg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB070"/><stop offset=".45" stop-color="#FF7A1F"/><stop offset="1" stop-color="#E04F00"/></linearGradient>
+<radialGradient id="hhub" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E3EAFA"/><stop offset="1" stop-color="#9AABD6"/></radialGradient>
+<radialGradient id="hglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFD6B0" stop-opacity=".9"/><stop offset="1" stop-color="#FF7A1F" stop-opacity="0"/></radialGradient>
+<filter id="hdrop" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#020822" flood-opacity=".45"/></filter>
+<filter id="hsoft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#010618" flood-opacity=".55"/></filter>
+<clipPath id="hclip"><rect width="120" height="120" rx="28"/></clipPath></defs><g filter="url(#hdrop)"><rect y="6" width="120" height="120" rx="28" fill="url(#hside)"/><rect width="120" height="120" rx="28" fill="url(#htile)"/></g>
+<rect x="1" y="1" width="118" height="118" rx="27" fill="none" stroke="#6F93F0" stroke-opacity=".55" stroke-width="2"/>
+<g clip-path="url(#hclip)">
+ <circle cx="80.51" cy="42.49" r="26" fill="url(#hglow)" opacity=".6"/>
+ <g filter="url(#hsoft)">
+  <circle cx="60" cy="66" r="34" fill="none" stroke="#8193C4" stroke-width="8"/>
+  <circle cx="60" cy="63" r="34" fill="none" stroke="url(#hwhite)" stroke-width="8"/>
+ </g>
+ <path d="M28.65 44.9A36.2 36.2 0 0 1 83.27 35.27" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".9"/>
+ <path d="M79.09 43.91L76.26 46.74" stroke="#AFC2F0" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/><path d="M87 63L79 63" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" opacity="0.95"/><path d="M79.09 82.09L76.26 79.26" stroke="#AFC2F0" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/><path d="M60 90L60 82" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" opacity="0.95"/><path d="M40.91 82.09L43.74 79.26" stroke="#AFC2F0" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/><path d="M33 63L41 63" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" opacity="0.95"/><path d="M40.91 43.91L43.74 46.74" stroke="#AFC2F0" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/>
+ <path d="M59.25 41.93Q59.25 41.88 59.29 41.84Q59.33 41.80 59.39 41.80L59.39 41.80L60.93 41.80Q60.98 41.80 61.02 41.84Q61.06 41.88 61.06 41.93L61.06 41.93L61.06 49.37Q61.06 49.42 61.02 49.46Q60.98 49.50 60.93 49.50L60.93 49.50L59.18 49.50Q59.05 49.50 59.02 49.39L59.02 49.39L57.93 45.56Q57.92 45.53 57.89 45.52Q57.87 45.52 57.87 45.56L57.87 45.56L57.89 49.37Q57.89 49.42 57.85 49.46Q57.81 49.50 57.76 49.50L57.76 49.50L56.22 49.50Q56.16 49.50 56.12 49.46Q56.09 49.42 56.09 49.37L56.09 49.37L56.09 41.93Q56.09 41.88 56.12 41.84Q56.16 41.80 56.22 41.80L56.22 41.80L57.94 41.80Q58.07 41.80 58.10 41.91L58.10 41.91L59.20 45.76Q59.21 45.79 59.24 45.79Q59.26 45.79 59.26 45.75L59.26 45.75L59.25 41.93Z" fill="#FFFFFF" opacity=".95"/>
+ <g filter="url(#hsoft)">
+  <path d="M80.51 42.49L64.6 67.6L55.4 58.4Z" transform="translate(0 2.5)" fill="#A83A00" stroke="#A83A00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M39.49 83.51L64.6 67.6L55.4 58.4Z" transform="translate(0 2.5)" fill="#7183B8" stroke="#7183B8" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M80.51 42.49L64.6 67.6L55.4 58.4Z" fill="url(#horg)" stroke="#FF8A33" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M39.49 83.51L64.6 67.6L55.4 58.4Z" fill="url(#hwhite)" stroke="#E3EAFA" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="60" cy="65" r="6.5" fill="#7183B8"/><circle cx="60" cy="63" r="6.5" fill="url(#hhub)"/>
+ </g>
+ <circle cx="60" cy="63" r="2.6" fill="#0A1F5C"/>
+ <path d="M101 13l1.9 4.7 4.7 1.9-4.7 1.9-1.9 4.7-1.9-4.7-4.7-1.9 4.7-1.9z" fill="#fff" filter="url(#hsoft)"/>
+ <path d="M0 0H120V50C88 62 40 64 0 56Z" fill="url(#hgloss)" opacity=".6"/>
+</g></svg>
+    <div><h1>Venture Compass</h1><p>Tell it about your business. Get your next moves, checked against current news and industry data.</p></div>
+  </div>
+  <div class="invite">
+    <label for="testLink">Send this tool to someone</label>
+    <div class="linkrow"><input id="testLink" readonly><button class="primary" id="copyLink" type="button">Copy link</button></div>
+    <button class="ghost" id="installBtn" type="button" hidden>Install the app</button>
+    <p class="hint" id="iosHint" hidden style="color:#E3ECFD">To install on iPhone: tap Share, then Add to Home Screen.</p>
+    <a class="sister" href="../">Also try the AI Career Stress Test →</a>
+  </div>
+</div></header>
+
+<main class="gutter layout">
+  <div class="col">
+    <section class="panel">
+      <h2>Get your next steps</h2>
+      <div class="tabs">
+        <button type="button" id="tabQuick" aria-pressed="true">Quick check</button>
+        <button type="button" id="tabDeep" aria-pressed="false">Deep review</button>
+      </div>
+      <p class="hint" id="tabNote"></p>
+
+      <form id="vcForm" autocomplete="off" style="display:flex;flex-direction:column;gap:12px">
+        <div class="step">
+          <h3>1. Tell it about your business</h3>
+          <p class="hint">Leave out passwords, account numbers and anyone's personal details.</p>
+          <div class="field"><label for="bizType">What does the business do?</label><input id="bizType" maxlength="160" placeholder="e.g. Metal fabrication workshop, home bakery, IT consulting"></div>
+          <div class="field"><label for="bizWhere">Where does it operate?</label><input id="bizWhere" maxlength="100" placeholder="e.g. Harare, Zimbabwe · New Jersey, USA · online"></div>
+          <div class="row">
+            <div class="field"><label for="bizStage">Stage</label><select id="bizStage"><option>Just an idea</option><option>Started in the last year</option><option selected>Running 1–3 years</option><option>Established, 3+ years</option></select></div>
+            <div class="field"><label for="bizGoal">Main goal now</label><select id="bizGoal"><option>Get my first customers</option><option selected>Grow sales</option><option>Improve profit</option><option>Fix cash flow</option><option>Raise money or find funding</option><option>Expand to a new market</option><option>Launch a new product or service</option></select></div>
+          </div>
+          <div class="field"><label for="bizOffer">What you sell, and to whom</label><textarea id="bizOffer" maxlength="1200" placeholder="e.g. Custom gates and burglar bars for homeowners, plus repair work for local mines."></textarea></div>
+          <div class="field"><label for="bizChallenge">Biggest challenge right now</label><textarea id="bizChallenge" maxlength="1200" placeholder="e.g. Steel prices keep rising and customers delay payment."></textarea></div>
+
+          <div id="deepFields" hidden style="display:flex;flex-direction:column;gap:12px">
+            <div class="field"><label for="bizActivities">What you've done in the last 3–6 months</label><textarea id="bizActivities" maxlength="2000" placeholder="Marketing you tried, new products, hires, big jobs won or lost, prices you changed."></textarea></div>
+            <div class="row">
+              <div class="field"><label for="bizTeam">Team size</label><select id="bizTeam"><option>Just me</option><option selected>2–5 people</option><option>6–20 people</option><option>21–100 people</option><option>More than 100</option></select></div>
+              <div class="field"><label for="bizBudget">Budget for the next 90 days</label><select id="bizBudget"><option>Almost nothing</option><option selected>Under $1,000</option><option>$1,000–$10,000</option><option>$10,000–$50,000</option><option>Over $50,000</option></select></div>
+            </div>
+            <div class="field"><label for="bizNumbers">Key numbers (optional)</label><textarea id="bizNumbers" maxlength="1200" placeholder="Rough ranges are fine: monthly sales, profit margin, number of customers, how long customers take to pay."></textarea></div>
+            <fieldset class="files">
+              <legend>Files you'll attach in your AI (optional)</legend>
+              <label><input type="checkbox" value="business plan or pitch deck"> Business plan or pitch deck</label>
+              <label><input type="checkbox" value="sales or revenue summary"> Sales or revenue summary</label>
+              <label><input type="checkbox" value="price list or menu"> Price list or menu</label>
+              <label><input type="checkbox" value="marketing plan or campaign results"> Marketing plan or campaign results</label>
+              <label><input type="checkbox" value="customer feedback or reviews"> Customer feedback or reviews</label>
+              <label><input type="checkbox" value="financial statements"> Financial statements</label>
+            </fieldset>
+            <div class="warn" role="note">
+              <strong>Before you attach any files</strong>
+              <p>Your files go only to the AI you choose, never to Venture Compass. That AI's own privacy rules apply, and some AI services use chats to improve their models unless you switch that off in their settings.</p>
+              <ul>
+                <li>Remove or black out passwords, bank and card numbers, and tax ID numbers.</li>
+                <li>Remove the names, phone numbers and emails of customers and staff.</li>
+                <li>Don't share anything under a confidentiality agreement (NDA), or trade secrets such as recipes, formulas or source code.</li>
+                <li>Where you can, share summaries or ranges instead of full statements.</li>
+              </ul>
+              <label class="ack"><input type="checkbox" id="ack"> I've removed sensitive details, and I understand my files go only to the AI I choose.</label>
+            </div>
+          </div>
+
+          <div class="actions"><button class="primary" id="copyPrompt" type="button">Copy prompt</button></div>
+          <span class="status" id="promptStatus" role="status"></span>
+          <details id="promptDetails"><summary>See the prompt</summary><textarea id="promptBox" readonly aria-label="Prompt to paste into an AI"></textarea></details>
+        </div>
+
+        <div class="step">
+          <h3>2. Paste it into an AI with web search</h3>
+          <div class="ailinks">
+            <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>
+            <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>
+            <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener">Copilot</a>
+            <a href="https://claude.ai/new" target="_blank" rel="noopener">Claude</a>
+            <a href="https://www.perplexity.ai/" target="_blank" rel="noopener">Perplexity</a>
+          </div>
+          <p class="hint" id="aiHint">Turn on web search so the advice uses current news. Muse or any other assistant works too.</p>
+        </div>
+
+        <div class="step">
+          <h3>3. Paste its answer back here</h3>
+          <div class="field"><label for="aiName">Which AI answered?</label><input id="aiName" list="aiNames" maxlength="40" placeholder="e.g. Gemini"><datalist id="aiNames"><option value="ChatGPT"><option value="Gemini"><option value="Copilot"><option value="Claude"><option value="Muse"><option value="Perplexity"><option value="Grok"></datalist></div>
+          <div class="field"><label for="vcAnswer">The AI's answer</label><textarea id="vcAnswer" placeholder="Paste the whole reply here."></textarea></div>
+          <div class="actions"><button class="primary" type="submit">Show my report</button></div>
+          <span class="status" id="vcStatus" role="status"></span>
+          <p class="hint">Your answer stays on this device. Nothing is sent to Venture Compass.</p>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="col" id="result" aria-live="polite"></div>
+</main>
+
+<section class="gutter method-wrap" style="padding-block:0 48px"><div class="panel method">
+  <h2>How Venture Compass works</h2>
+  <ol>
+    <li><strong>Pick a depth.</strong> A quick check needs a few lines about the business. A deep review adds your recent activities, rough numbers and files, so the advice can be more specific.</li>
+    <li><strong>Your AI does the research.</strong> With web search on, it checks current news, prices, rules and competitors for your industry and location, then lists its sources.</li>
+    <li><strong>Read your report.</strong> A compass reading across five areas, ranked next steps, the trends that matter, risks, and resources.</li>
+    <li><strong>Keep watching.</strong> Set the suggested free Google Alerts so news comes to you, and run Venture Compass again each month.</li>
+  </ol>
+  <h3>Privacy and limits</h3>
+  <ul>
+    <li>Venture Compass has no server and no database. What you type, your files and your report never reach us.</li>
+    <li>This site counts anonymous visits with Google Analytics. Nothing you type is included.</li>
+    <li>AI advice can be wrong or out of date. Open the sources and check important facts before you act.</li>
+    <li>This is general guidance, not legal, tax, financial or investment advice. Talk to a qualified professional before major decisions.</li>
+  </ul>
+</div></section>
+
+<script>
+const TOOL_LINK="https://ai-career-stress-test.github.io/venture-compass/";
+const $=id=>document.getElementById(id);
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=String(text);return e;}
+function track(name,params){try{if(typeof gtag==="function")gtag("event",name,params||{});}catch(e){}}
+
+const AREAS=["Market demand","Competition","Customers and marketing","Money and pricing","Operations and team"];
+const IMPACT={opportunity:["Opportunity","c-augment"],threat:["Threat","c-automate"],watch:["Watch","c-plain"]};
+
+const EXAMPLE={
+  business:"Small metal fabrication workshop",location:"Harare, Zimbabwe",
+  summary:"Demand for security and solar-related steelwork is steady, but the shop wins work mostly by word of mouth and quotes go stale when steel prices move. Locking in material costs and showing past work online are the fastest gains.",
+  areas:[{area:"Market demand",score:7,note:"Security and solar mounting work keep coming."},{area:"Competition",score:5,note:"Many small shops compete on price alone."},{area:"Customers and marketing",score:4,note:"Few customers can find the shop online."},{area:"Money and pricing",score:4,note:"Quotes lose money when steel costs jump."},{area:"Operations and team",score:6,note:"Skilled team, but jobs depend on the owner."}],
+  trends:[{trend:"More homes and businesses installing solar power",impact:"opportunity",meaning:"Steady demand for panel mounting frames, battery stands and security cages."},{trend:"Imported steel prices move with exchange rates",impact:"threat",meaning:"A quote can turn into a loss if steel costs rise before you buy."},{trend:"Buyers look for suppliers on WhatsApp and Facebook first",impact:"opportunity",meaning:"A simple catalogue of finished jobs can win enquiries without paid ads."},{trend:"Larger clients asking for certified welds",impact:"watch",meaning:"Certification may be needed to bid for mining and construction work."}],
+  nextSteps:[
+    {step:"Make every quote valid for 7 days and tie it to the steel price on that date",why:"Stops rising material costs from eating your profit.",timeframe:"this week",effort:"low",cost:"free"},
+    {step:"Ask for a 50% deposit before buying materials",why:"Protects cash flow when customers pay late.",timeframe:"this week",effort:"low",cost:"free"},
+    {step:"Set up a WhatsApp Business catalogue with photos and prices of 10 past jobs",why:"Customers already search there, and photos build trust fast.",timeframe:"30 days",effort:"low",cost:"free"},
+    {step:"Package a solar mounting and battery cage offer for solar installers",why:"Installers need a reliable steel partner for repeat work.",timeframe:"30 days",effort:"medium",cost:"low"},
+    {step:"Price out a welding certification for one team member",why:"Opens bids for larger mining and construction contracts.",timeframe:"90 days",effort:"medium",cost:"medium"},
+    {step:"Train a lead hand to run jobs on site",why:"Frees you to sell and quote instead of welding all day.",timeframe:"90 days",effort:"medium",cost:"low"}
+  ],
+  quickWins:["Post one finished job with photos every week","Call your last 10 customers and ask for referrals","Put your prices and payment terms in writing"],
+  risks:[{risk:"One or two big customers bring most of the sales",response:"Add two new customer types this quarter."},{risk:"Late payments drain cash",response:"Deposits, staged payments and written terms."},{risk:"Power cuts stop production",response:"Plan heavy jobs around supply and budget for backup power."}],
+  alerts:["solar mounting structures Zimbabwe","steel prices Zimbabwe","fabrication tenders Harare"],
+  resources:[{name:"Zimbabwe Investment and Development Agency (ZIDA)",url:"",why:"Registration and investor support for growing firms."},{name:"Standards Association of Zimbabwe (SAZ)",url:"",why:"Product and welding certification for larger contracts."}],
+  questions:["What share of sales comes from your top three customers?","What is your profit margin on a typical gate or frame?","How many enquiries do you get each month, and from where?"],
+  sources:[]
+};
+
+let depth="quick";
+const NOTES={quick:"A few details about your business. Takes about 2 minutes.",deep:"More detail and optional files, for advice tied to your real situation. Takes about 10 minutes."};
+function setDepth(d,user){
+  depth=d;$("deepFields").hidden=d!=="deep";$("deepFields").style.display=d==="deep"?"flex":"";
+  $("tabQuick").setAttribute("aria-pressed",String(d==="quick"));$("tabDeep").setAttribute("aria-pressed",String(d==="deep"));
+  $("tabNote").textContent=NOTES[d];
+  $("aiHint").textContent=d==="deep"?"Turn on web search, and attach your files in the same chat before you send the prompt. Muse or any other assistant works too.":"Turn on web search so the advice uses current news. Muse or any other assistant works too.";
+  if(user)track("vc_select_depth",{depth:d});
+}
+$("tabQuick").onclick=()=>setDepth("quick",true);$("tabDeep").onclick=()=>setDepth("deep",true);
+setDepth("quick");
+
+function files(){return [...document.querySelectorAll(".files input:checked")].map(i=>i.value);}
+function buildPrompt(){
+  const v=id=>$(id).value.trim(),deep=depth==="deep",f=files();
+  const today=new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+  const lines=[
+`You are an experienced small-business and startup advisor. Today's date is ${today}. A business owner wants practical, specific next steps.`,
+``,
+`First, search the web for the latest news, trends, prices, regulations, funding programs and competitor moves that affect this kind of business in ${v("bizWhere")||"its market"}. Prefer sources from the last 12 months, and use what you find in your advice. If you cannot search the web, say so at the start of the summary and give general advice only.`];
+  if(deep)lines.push("",f.length?`The owner has attached these files to this chat: ${f.join(", ")}. Read them closely and use specific details from them. Do not repeat personal data, account numbers or customer names from the files.`:`If the owner attaches files to this chat, read them closely and use specific details from them. Do not repeat personal data, account numbers or customer names from the files.`);
+  lines.push("","About the business:",
+`- What it does: ${v("bizType")}`,
+`- Where it operates: ${v("bizWhere")||"(not given)"}`,
+`- Stage: ${v("bizStage")}`,
+`- Main goal now: ${v("bizGoal")}`,
+`- What it sells, and to whom: ${v("bizOffer")||"(not given)"}`,
+`- Biggest challenge: ${v("bizChallenge")||"(not given)"}`);
+  if(deep)lines.push(
+`- Recent activities (last 3–6 months): ${v("bizActivities")||"(not given)"}`,
+`- Team size: ${v("bizTeam")}`,
+`- Budget for the next 90 days: ${v("bizBudget")}`,
+`- Key numbers: ${v("bizNumbers")||"(not given)"}`);
+  lines.push("","Rules:",
+"- Be specific to this business, its stage, location and budget. Favor low-cost actions when money is tight.",
+"- Never invent statistics, news, grants, programs or sources. Only name real organizations and real web pages you found.",
+"- This is guidance, not legal, tax or financial advice. Say where the owner should consult a professional.",
+deep?"- Go deep: tie each step to details the owner gave you or that you found in the files.":"- This is a quick check from limited information, so keep it focused.",
+"","Reply with only a JSON object inside one code block, in exactly this shape:",
+`{"business":string,"location":string,"summary":string (2-3 sentences),"areas":[{"area":"Market demand"|"Competition"|"Customers and marketing"|"Money and pricing"|"Operations and team","score":number from 0 to 10,"note":string}],"trends":[{"trend":string,"impact":"opportunity"|"threat"|"watch","meaning":string (what it means for this business),"source":string (URL)}],"nextSteps":[{"step":string,"why":string,"timeframe":"this week"|"30 days"|"90 days","effort":"low"|"medium"|"high","cost":"free"|"low"|"medium"|"high"}],"quickWins":[string],"risks":[{"risk":string,"response":string}],"alerts":[string],"resources":[{"name":string,"url":string,"why":string}],"questions":[string],"sources":[{"title":string,"url":string}]}`,
+"Score all five areas. Give 3-5 trends, 5-7 next steps in priority order, 3 quick wins, 3 risks, 3-5 short search terms for Google Alerts, 2-4 real resources (support programs, associations or agencies), 3 questions that would sharpen the advice, and 3-6 sources. Keep every string short and plain. Write nothing outside the code block.");
+  return lines.join("\n");
+}
+
+$("copyPrompt").onclick=async()=>{
+  const st=$("promptStatus");st.className="status err";
+  if(!$("bizType").value.trim()){st.textContent="Say what the business does first.";$("bizType").focus();return;}
+  if(depth==="deep"&&!$("ack").checked){st.textContent="Read the note on sensitive information and tick the box first.";$("ack").focus();return;}
+  const pr=buildPrompt();$("promptBox").value=pr;st.className="status";
+  track("vc_copy_prompt",{depth,files_planned:files().length});
+  try{await navigator.clipboard.writeText(pr);st.textContent=depth==="deep"?"Copied. Open an AI, attach your files, then paste.":"Copied. Paste it into an AI in step 2.";}
+  catch(e){$("promptDetails").open=true;$("promptBox").focus();$("promptBox").select();st.textContent="Press Ctrl+C (Cmd+C on a Mac) to copy the selected prompt.";}
+};
+
+function parseAnswer(t){
+  t=String(t).trim();const fence=t.match(/```(?:json)?\s*([\s\S]*?)```/i);if(fence)t=fence[1];
+  const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<=a)throw new Error("no json");
+  const j=t.slice(a,b+1);
+  try{return JSON.parse(j);}catch(e){return JSON.parse(j.replace(/[“”]/g,'"').replace(/,\s*([}\]])/g,"$1"));}
+}
+const isUrl=u=>/^https?:\/\/\S+$/i.test(String(u||""));
+const arr=x=>Array.isArray(x)?x:[];
+const pick=(v,list,d)=>list.includes(String(v||"").toLowerCase())?String(v).toLowerCase():d;
+function clean(d){
+  const byName={};arr(d.areas).forEach(a=>{if(a&&a.area)byName[String(a.area).toLowerCase()]=a;});
+  const areas=AREAS.map(n=>{const a=byName[n.toLowerCase()]||{};const s=Number(a.score);return {area:n,score:isFinite(s)?Math.max(0,Math.min(10,Math.round(s))):null,note:String(a.note||"")};});
+  const scored=areas.filter(a=>a.score!=null);
+  const overall=scored.length?Math.round(scored.reduce((x,a)=>x+a.score,0)/scored.length*10):null;
+  return {business:String(d.business||"Your business"),location:String(d.location||""),summary:String(d.summary||""),areas,overall,
+    trends:arr(d.trends).filter(t=>t&&t.trend).slice(0,6).map(t=>({trend:String(t.trend),impact:pick(t.impact,["opportunity","threat","watch"],"watch"),meaning:String(t.meaning||""),source:isUrl(t.source)?String(t.source):""})),
+    nextSteps:arr(d.nextSteps).filter(s=>s&&s.step).slice(0,8).map(s=>({step:String(s.step),why:String(s.why||""),timeframe:pick(s.timeframe,["this week","30 days","90 days"],"30 days"),effort:pick(s.effort,["low","medium","high"],"medium"),cost:pick(s.cost,["free","low","medium","high"],"low")})),
+    quickWins:arr(d.quickWins).map(String).slice(0,5),risks:arr(d.risks).filter(r=>r&&r.risk).slice(0,5).map(r=>({risk:String(r.risk),response:String(r.response||"")})),
+    alerts:arr(d.alerts).map(String).filter(Boolean).slice(0,6),resources:arr(d.resources).filter(r=>r&&r.name).slice(0,6).map(r=>({name:String(r.name),url:isUrl(r.url)?String(r.url):"",why:String(r.why||"")})),
+    questions:arr(d.questions).map(String).slice(0,5),sources:arr(d.sources).filter(s=>s&&isUrl(s.url)).slice(0,8).map(s=>({title:String(s.title||s.url),url:String(s.url)}))};
+}
+function reading(n){
+  if(n==null)return {t:"No reading",cls:"c-plain",s:"The answer didn't include area scores."};
+  if(n>=70)return {t:"On course",cls:"c-human",s:"The business is in good shape. Focus on the steps that protect and extend what works."};
+  if(n>=45)return {t:"Adjust course",cls:"c-augment",s:"Solid parts, with clear gaps. Fix the weakest areas first."};
+  return {t:"Change course",cls:"c-automate",s:"Several areas need attention. Start with the first two steps below."};
+}
+function panel(title){const p=el("section","panel");if(title)p.appendChild(el("h2",null,title));return p;}
+function list(items,ordered){const u=el(ordered?"ol":"ul");items.forEach(i=>u.appendChild(el("li",null,i)));return u;}
+function link(text,url){const a=el("a",null,text);a.href=url;a.target="_blank";a.rel="noopener";return a;}
+async function copyText(text,btn,field){const old=btn.textContent;try{await navigator.clipboard.writeText(text);btn.textContent="Copied";}catch(e){if(field){field.focus();field.select();}btn.textContent="Press Ctrl+C";}setTimeout(()=>btn.textContent=old,1800);}
+
+let current=null;
+function render(raw,source){
+  const d=clean(raw),r=reading(d.overall),out=$("result");out.replaceChildren();current={d,source};
+  const isEx=source.startsWith("Example");
+  const top=panel();top.appendChild(el("span","tag",source));top.appendChild(el("h2",null,d.business));
+  if(d.location)top.appendChild(el("span","eyebrow",d.location));
+  const ro=el("div","readout"),sc=el("div","score",d.overall==null?"–":d.overall);sc.appendChild(el("small",null,"/100"));ro.appendChild(sc);
+  const side=el("div");side.style.cssText="display:flex;flex-direction:column;gap:8px;min-width:0";
+  side.appendChild(el("span","verdict "+r.cls,r.t));side.appendChild(el("p",null,r.s));if(d.summary)side.appendChild(el("p","hint",d.summary));
+  ro.appendChild(side);top.appendChild(ro);
+  const areas=el("div","areas");
+  d.areas.forEach(a=>{const row=el("div","area");row.appendChild(el("span","an",a.area));const tr=el("span","tr"),f=el("i");f.style.width=(a.score||0)*10+"%";f.style.background=a.score==null?"var(--line)":a.score>=7?"var(--navy)":a.score>=5?"var(--sky)":"var(--orange)";tr.appendChild(f);row.appendChild(tr);row.appendChild(el("b",null,a.score==null?"–":a.score+"/10"));if(a.note)row.appendChild(el("span","note",a.note));areas.appendChild(row);});
+  top.appendChild(areas);out.appendChild(top);
+
+  if(d.nextSteps.length){const p=panel("Your next steps");p.appendChild(el("p","hint","In priority order. Start at the top."));const ol=el("ol","steps");
+    d.nextSteps.forEach(s=>{const li=el("li");li.appendChild(el("strong",null,s.step));const m=el("div","meta");m.appendChild(el("span","chip c-human",s.timeframe));m.appendChild(el("span","chip c-plain","effort: "+s.effort));m.appendChild(el("span","chip "+(s.cost==="free"?"c-augment":"c-plain"),s.cost==="free"?"free":"cost: "+s.cost));li.appendChild(m);if(s.why)li.appendChild(el("p","why",s.why));ol.appendChild(li);});
+    p.appendChild(ol);out.appendChild(p);}
+
+  if(d.trends.length){const p=panel("Trends and news that matter");const g=el("div","cards");
+    d.trends.forEach(t=>{const c=el("div","card");const[lab,cls]=IMPACT[t.impact];c.appendChild(el("span","chip "+cls,lab));c.appendChild(el("strong",null,t.trend));if(t.meaning)c.appendChild(el("p",null,t.meaning));if(t.source)c.appendChild(link("Source",t.source));g.appendChild(c);});
+    p.appendChild(g);if(isEx)p.appendChild(el("p","foot","Your own report lists the news and data sources your AI used."));out.appendChild(p);}
+
+  if(d.quickWins.length||d.risks.length){const p=panel("Quick wins and risks"),lanes=el("div","lanes");
+    if(d.quickWins.length){const l=el("div","lane"),b=el("span");b.style.background="var(--sky)";l.appendChild(b);l.appendChild(el("h3",null,"Quick wins"));l.appendChild(list(d.quickWins));lanes.appendChild(l);}
+    if(d.risks.length){const l=el("div","lane"),b=el("span");b.style.background="var(--orange)";l.appendChild(b);l.appendChild(el("h3",null,"Risks to manage"));const u=el("ul");d.risks.forEach(x=>{const li=el("li");li.appendChild(el("strong",null,x.risk));if(x.response)li.append(" "+x.response);u.appendChild(li);});l.appendChild(u);lanes.appendChild(l);}
+    p.appendChild(lanes);out.appendChild(p);}
+
+  const watch=panel("Stay on course");watch.appendChild(el("p",null,"Get news about your industry sent to you for free. Copy each search term into Google Alerts, then run Venture Compass again each month."));
+  if(d.alerts.length){const box=el("div","alerts");d.alerts.forEach(a=>{const row=el("div","alert");row.appendChild(el("code",null,a));const b=el("button","ghost small","Copy");b.type="button";b.onclick=()=>{copyText(a,b);track("vc_copy_alert");};row.appendChild(b);box.appendChild(row);});watch.appendChild(box);}
+  const al=link("Open Google Alerts","https://www.google.com/alerts");al.className="btnlink";watch.appendChild(al);out.appendChild(watch);
+
+  if(d.resources.length||d.questions.length){const p=panel("Resources and questions");
+    if(d.resources.length){const g=el("div","cards");d.resources.forEach(x=>{const c=el("div","card");c.appendChild(x.url?link(x.name,x.url):el("strong",null,x.name));if(x.why)c.appendChild(el("p",null,x.why));g.appendChild(c);});p.appendChild(g);}
+    if(d.questions.length){p.appendChild(el("h3",null,depth==="deep"||!isEx?"Questions that would sharpen the advice":"Questions a deep review would answer"));p.appendChild(list(d.questions));}
+    out.appendChild(p);}
+
+  if(d.sources.length){const p=panel("Sources the AI used");p.appendChild(el("p","hint","Open these to check the claims before you act."));const ol=el("ol","srcs");d.sources.forEach(s=>{const li=el("li");li.appendChild(link(s.title,s.url));ol.appendChild(li);});p.appendChild(ol);out.appendChild(p);}
+
+  if(!isEx){const p=panel("Save your report");p.appendChild(el("p","hint","Your report isn't stored anywhere. Save it now if you want to keep it."));
+    const ac=el("div","actions"),dl=el("button","primary","Download as text");dl.type="button";dl.onclick=download;const pr=el("button","ghost","Print or save as PDF");pr.type="button";pr.onclick=()=>{track("vc_print");window.print();};ac.append(dl,pr);p.appendChild(ac);out.appendChild(p);}
+
+  const msg=`Where is your business heading? Venture Compass gives you next steps checked against current news and industry data. Free: ${TOOL_LINK}`;
+  const sh=panel("Share Venture Compass");sh.classList.add("sharecard");sh.appendChild(el("p","hint","This shares the tool only, never your report."));
+  const ta=el("textarea");ta.id="shareText";ta.readOnly=true;ta.value=msg;ta.setAttribute("aria-label","Message to share");sh.appendChild(ta);
+  const ac=el("div","actions"),bt=el("button","primary","Copy message");bt.type="button";bt.onclick=()=>{copyText(msg,bt,ta);track("share",{method:"copy_message",tool:"venture_compass"});};ac.appendChild(bt);
+  [["WhatsApp","https://wa.me/?text="+encodeURIComponent(msg)],["LinkedIn","https://www.linkedin.com/feed/?shareActive=true&text="+encodeURIComponent(msg)]].forEach(([n,h])=>{const a=link(n,h);a.onclick=()=>track("share",{method:n.toLowerCase(),tool:"venture_compass"});ac.appendChild(a);});
+  sh.appendChild(ac);out.appendChild(sh);
+}
+
+function reportText(){
+  const {d,source}=current,L=[];
+  L.push("VENTURE COMPASS REPORT",`${d.business}${d.location?" · "+d.location:""}`,`${source} · ${new Date().toLocaleDateString()}`,"");
+  L.push(`Compass reading: ${d.overall==null?"n/a":d.overall+"/100"} (${reading(d.overall).t})`,d.summary,"");
+  L.push("AREAS");d.areas.forEach(a=>L.push(`- ${a.area}: ${a.score==null?"n/a":a.score+"/10"}${a.note?" — "+a.note:""}`));L.push("");
+  L.push("NEXT STEPS");d.nextSteps.forEach((s,i)=>L.push(`${i+1}. ${s.step} [${s.timeframe}, effort ${s.effort}, cost ${s.cost}]`,`   Why: ${s.why}`));L.push("");
+  if(d.trends.length){L.push("TRENDS AND NEWS");d.trends.forEach(t=>L.push(`- [${IMPACT[t.impact][0]}] ${t.trend}: ${t.meaning}${t.source?" ("+t.source+")":""}`));L.push("");}
+  if(d.quickWins.length){L.push("QUICK WINS");d.quickWins.forEach(x=>L.push("- "+x));L.push("");}
+  if(d.risks.length){L.push("RISKS");d.risks.forEach(x=>L.push(`- ${x.risk}: ${x.response}`));L.push("");}
+  if(d.alerts.length){L.push("GOOGLE ALERTS TO SET (google.com/alerts)");d.alerts.forEach(x=>L.push("- "+x));L.push("");}
+  if(d.resources.length){L.push("RESOURCES");d.resources.forEach(x=>L.push(`- ${x.name}${x.url?" ("+x.url+")":""}: ${x.why}`));L.push("");}
+  if(d.questions.length){L.push("QUESTIONS TO SHARPEN THE ADVICE");d.questions.forEach(x=>L.push("- "+x));L.push("");}
+  if(d.sources.length){L.push("SOURCES");d.sources.forEach(x=>L.push(`- ${x.title}: ${x.url}`));L.push("");}
+  L.push("AI-generated guidance, not legal, tax, financial or investment advice. Check sources before acting.",TOOL_LINK);
+  return L.join("\n");
+}
+function download(){
+  try{const blob=new Blob([reportText()],{type:"text/plain;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="venture-compass-report.txt";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);track("vc_download");}catch(e){}
+}
+
+$("vcForm").addEventListener("submit",e=>{
+  e.preventDefault();const st=$("vcStatus");st.className="status err";
+  const txt=$("vcAnswer").value;if(!txt.trim()){st.textContent="Paste the AI's answer first.";$("vcAnswer").focus();return;}
+  let data;try{data=parseAnswer(txt);}catch(x){st.textContent="That answer couldn't be read. Ask the AI to reply with only the JSON in one code block, then paste it again.";return;}
+  if(!data||!Array.isArray(data.nextSteps)||!data.nextSteps.length){st.textContent="That answer has no next steps. Ask the AI to follow the prompt's format, then paste it again.";return;}
+  if(!data.business)data.business=$("bizType").value.trim()||"Your business";
+  const name=$("aiName").value.trim(),known=["chatgpt","gemini","copilot","claude","muse","perplexity","grok","meta ai","deepseek"];
+  render(data,`Report by ${name||"your AI"}`);
+  st.className="status";st.textContent="Done. Your report is ready.";
+  track("vc_report_shown",{depth,ai_name:known.includes(name.toLowerCase())?name.toLowerCase():"other",stage:$("bizStage").value,goal:$("bizGoal").value});
+  if(window.matchMedia("(max-width:940px)").matches)$("result").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("a");if(t&&t.closest(".ailinks"))track("open_ai",{ai_name:t.textContent.trim().toLowerCase(),tool:"venture_compass"});},true);
+$("testLink").value=TOOL_LINK;$("copyLink").onclick=()=>{copyText(TOOL_LINK,$("copyLink"),$("testLink"));track("share",{method:"copy_link",tool:"venture_compass"});};
+render(EXAMPLE,"Example report: small metal fabrication workshop");
+
+let deferredInstall=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("installBtn").hidden=false;});
+$("installBtn").onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();try{await deferredInstall.userChoice;}catch(e){}deferredInstall=null;$("installBtn").hidden=true;};
+addEventListener("appinstalled",()=>{$("installBtn").hidden=true;track("app_install",{tool:"venture_compass"});});
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!matchMedia("(display-mode: standalone)").matches)$("iosHint").hidden=false;
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("../sw.js",{scope:"../"}).catch(()=>{}));
+</script>
+
+</body>
+</html>
