@@ -128,6 +128,21 @@ ul,ol{margin:0;padding-left:19px;display:flex;flex-direction:column;gap:6px}
 .card{border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
 .card .who{font:12px var(--mono);color:var(--muted)}.card p{font-size:14px;color:var(--muted)}
 .pe{background:var(--sky-bg);border-radius:6px;padding:14px;font-size:14px}.pe strong{display:block}
+.schoolbar{background:var(--orange-bg);color:var(--navy);font-size:14px;font-weight:600}
+.schoolbar .gutter{padding-block:10px}
+.roles{display:flex;flex-wrap:wrap;gap:8px}.roles .chip{font-size:12px;padding:4px 9px}
+.card a.tool{color:var(--blue);font-weight:700}
+.card .chip{align-self:flex-start}
+#advisorSummary{display:none}
+@media print{
+  body.print-summary>*{display:none!important}
+  body.print-summary>#advisorSummary{display:block!important;color:#000;font:11pt/1.45 "Public Sans",Arial,sans-serif;padding:0}
+  #advisorSummary h1{font:700 22pt/1.1 "Barlow Condensed","Arial Narrow",sans-serif;text-transform:uppercase;margin:0 0 4pt;color:#0A1F5C}
+  #advisorSummary h2{font:700 13pt/1.2 "Barlow Condensed","Arial Narrow",sans-serif;text-transform:uppercase;margin:10pt 0 3pt;color:#0A1F5C;letter-spacing:.03em}
+  #advisorSummary ul,#advisorSummary ol{display:block;margin:0;padding-left:16pt}
+  #advisorSummary p{margin:0 0 4pt}
+  #advisorSummary .meta{color:#444}
+}
 .sharecard{background:var(--navy);border-color:var(--navy);color:var(--white)}
 .sharecard h2{color:var(--white)}.sharecard p.hint{color:#D7E3FB}
 .sharecard a{display:inline-block;font-weight:700;border-radius:6px;padding:11px 18px;background:var(--white);color:var(--blue);text-decoration:none}
@@ -196,6 +211,7 @@ details textarea{margin-top:8px;font:12px/1.5 var(--mono);min-height:140px}
     <a class="sister" href="venture-compass/">New: Venture Compass, next steps for your business →</a>
   </div>
 </div></header>
+<div class="schoolbar" id="schoolBar" hidden><div class="gutter"><span id="schoolText"></span></div></div>
 
 <main class="gutter layout">
   <div class="col">
@@ -282,8 +298,11 @@ details textarea{margin-top:8px;font:12px/1.5 var(--mono);min-height:140px}
   <p class="foot">Bands: under 30 low exposure for now · 30–59 partly exposed · 60+ largely exposed. Self-scoring weights: how repeatable 35, where it is done 30, consequence of error 20, need for trust 15. A task scoring 65+ counts as Automate, 35–64 as Augment, under 35 as Human-led. All scores are informed estimates, not predictions. Confirm any certification with the issuing body before enrolling.</p>
 </div></section>
 
+<script src="schools.js"></script>
 <script>
-const TEST_LINK="https://ai-career-stress-test.github.io/";
+const SCHOOL_ID=(()=>{try{const q=(new URLSearchParams(location.search).get("school")||"").toLowerCase();return q&&window.SCHOOLS&&SCHOOLS[q]?q:"";}catch(e){return "";}})();
+const SCHOOL=SCHOOL_ID?SCHOOLS[SCHOOL_ID]:null;
+const TEST_LINK="https://ai-career-stress-test.github.io/"+(SCHOOL_ID?"?school="+SCHOOL_ID:"");
 const EXAMPLE = {
   role:"Welder / Boilermaker",
   summary:"Repeat production welding is already moving to robotic and cobot cells, and paperwork is moving to AI. Field, repair and site work in messy, unstructured places is still firmly human, and so is signing off on safety-critical work.",
@@ -312,6 +331,7 @@ const EXAMPLE = {
     {name:"Collaborative robot welding training",issuer:"Robot makers such as FANUC or Universal Robots",why:"Hands-on proof you can program and run welding cobots."},
     {name:"OSHA 30-Hour Construction",issuer:"OSHA Outreach Training Program",why:"Expected for site leads and supervisors in the US."}
   ],
+  newRoles:["Robotic welding cell operator and programmer","Certified welding inspector","Fabrication supervisor or QA lead"],
   promptEngineering:"Helpful for quotes, emails and paperwork, but it is not your edge. Your edge is programming, running and certifying the machines, plus the field work they can't do yet."
 };
 
@@ -326,7 +346,7 @@ function clean(d){
   tasks.forEach(t=>t.share=total>0?t.timeShare/total*100:100/(tasks.length||1));
   const overall=Math.round(tasks.reduce((s,t)=>s+t.exposure*t.share/100,0));
   const arr=x=>Array.isArray(x)?x:[];
-  return {role:String(d.role||"Your role"),summary:String(d.summary||""),tasks,overall,humanEdge:arr(d.humanEdge).map(String),plan:{handOff:arr(d.plan?.handOff).map(String),doubleDown:arr(d.plan?.doubleDown).map(String),prepare:arr(d.plan?.prepare).map(String)},skills:arr(d.skills),certifications:arr(d.certifications),promptEngineering:String(d.promptEngineering||""),sources:arr(d.sources).filter(x=>x&&/^https?:\/\//i.test(String(x.url||""))).slice(0,8).map(x=>({title:String(x.title||x.url),url:String(x.url)}))};
+  return {role:String(d.role||"Your role"),summary:String(d.summary||""),tasks,overall,humanEdge:arr(d.humanEdge).map(String),plan:{handOff:arr(d.plan?.handOff).map(String),doubleDown:arr(d.plan?.doubleDown).map(String),prepare:arr(d.plan?.prepare).map(String)},skills:arr(d.skills),certifications:arr(d.certifications),promptEngineering:String(d.promptEngineering||""),industryUse:arr(d.industryUse).filter(x=>x&&x.example).slice(0,5).map(x=>({example:String(x.example),who:String(x.who||""),when:String(x.when||""),source:/^https?:\/\//i.test(String(x.source||""))?String(x.source):""})),newRoles:arr(d.newRoles).map(String).filter(Boolean).slice(0,4),sources:arr(d.sources).filter(x=>x&&/^https?:\/\//i.test(String(x.url||""))).slice(0,8).map(x=>({title:String(x.title||x.url),url:String(x.url)}))};
 }
 function verdict(n){
   if(n>=60)return {t:"Largely exposed",cls:"c-automate",s:"Most of this job's time goes to tasks AI or robots can already do. Shift toward the parts that need you."};
@@ -341,7 +361,7 @@ async function copy(text,field,btn){
   catch(e){field.focus();field.select();btn.textContent="Press Ctrl+C";}
   setTimeout(()=>btn.textContent=old,1800);
 }
-function render(raw,source,opts){opts=opts||{};
+function render(raw,source,opts){opts=opts||{};window.__cur=null;
   const d=clean(raw),v=verdict(d.overall),out=$("result");out.replaceChildren();
   const sorted=[...d.tasks].sort((a,b)=>b.exposure-a.exposure);
   const top=panel();
@@ -378,6 +398,21 @@ function render(raw,source,opts){opts=opts||{};
   pl.appendChild(lanes);
   if(d.humanEdge.length){pl.appendChild(el("h3",null,"Your human edge"));pl.appendChild(list(d.humanEdge));}
   out.appendChild(pl);
+  window.__cur={d,source};
+
+  if(d.industryUse.length||d.newRoles.length){
+    const ip=panel(d.industryUse.length?"How your industry already uses AI":"Where this job is heading");
+    if(d.industryUse.length){ip.appendChild(el("p","hint","Real examples the AI found, with dates. Open the sources to check them."));const g=el("div","cards");d.industryUse.forEach(x=>{const c=el("div","card");c.appendChild(el("strong",null,x.example));const meta=[x.who,x.when].filter(Boolean).join(" · ");if(meta)c.appendChild(el("span","who",meta));if(x.source){const a=el("a",null,"Source");a.href=x.source;a.target="_blank";a.rel="noopener";c.appendChild(a);}g.appendChild(c);});ip.appendChild(g);}
+    else ip.appendChild(el("p","hint","Results from Use any AI also list real, dated examples of employers already using AI for these tasks, with sources."));
+    if(d.newRoles.length){ip.appendChild(el("h3",null,"Roles growing out of this job"));const r=el("div","roles");d.newRoles.forEach(x=>r.appendChild(el("span","chip c-augment",x)));ip.appendChild(r);}
+    out.appendChild(ip);
+  }
+
+  const ad=panel(SCHOOL?`Your next step at ${SCHOOL.short}`:"Take this to a career advisor");
+  ad.appendChild(el("p",null,SCHOOL?`The ${SCHOOL.center} can help you act on this plan. Bring your one-page summary to your appointment.`:"Most colleges, and many public workforce centers, offer free career advising. Bring your one-page summary to your appointment."));
+  if(SCHOOL){const g=el("div","cards");SCHOOL.steps.forEach(x=>{const c=el("div","card");c.appendChild(el("span","chip c-plain",x.when));const a=el("a",null,x.tool);a.href=x.url;a.target="_blank";a.rel="noopener";a.className="tool";a.onclick=()=>track("open_school_tool",{tool:x.tool});c.appendChild(a);c.appendChild(el("p",null,x.why));g.appendChild(c);});ad.appendChild(g);}
+  const aa=el("div","actions"),pb=el("button","primary","Print advisor summary");pb.type="button";pb.onclick=printSummary;const db=el("button","ghost","Download summary");db.type="button";db.onclick=downloadSummary;aa.append(pb,db);ad.appendChild(aa);
+  out.appendChild(ad);
 
   if(d.skills.length||d.certifications.length||d.promptEngineering){
     const sk=panel("Skills and certifications");
@@ -509,6 +544,8 @@ function anyPrompt(job,tasks,level,where){
     .replace("Steps:\n","Before you answer, search the web for current evidence about AI, agents and robots in this job: product launches, studies and how employers are using them. Base your scores on what you find.\n\nSteps:\n")
     .replace("\n\nReply with ONLY","\n7. In sources, list the 3–6 web pages you relied on most, with their real URLs.\n\nReply with ONLY")
     .replace(',"promptEngineering":string}',',"promptEngineering":string,"sources":[{"title":string,"url":string}]}')
+    .replace("\n\nReply with ONLY","\n8. In industryUse, give 2–4 real, recent examples of employers or industries already using AI or robots for tasks in this job, each with the month and year and a source URL. Only use examples you actually found. In newRoles, list 2–3 new or growing roles that people in this job are moving into.\n\nReply with ONLY")
+    .replace(',"sources":[{"title":string,"url":string}]}',',"sources":[{"title":string,"url":string}],"industryUse":[{"example":string,"who":string,"when":string,"source":string}],"newRoles":[string]}')
     .replace("Keep every string short and plain. No markdown.","Keep every string short and plain. Put the whole JSON object in one code block and write nothing else.");
 }
 function parseAnswer(t){
@@ -564,7 +601,7 @@ if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!matchMedia("(display-mode: st
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 
 /* Analytics: only counts and categories, never what people type. */
-function track(name,params){try{if(typeof gtag==="function")gtag("event",name,params||{});}catch(e){}}
+function track(name,params){try{if(typeof gtag==="function")gtag("event",name,Object.assign({school:SCHOOL_ID||"none"},params||{}));}catch(e){}}
 const KNOWN_AI=["chatgpt","gemini","copilot","claude","muse","perplexity","grok","meta ai","deepseek"];
 let pendingResult=false;
 document.addEventListener("submit",e=>{if(e.target&&["anyForm","selfForm","form"].includes(e.target.id))pendingResult=true;},true);
@@ -589,6 +626,51 @@ document.addEventListener("click",e=>{
   else if(t.id==="installBtn")track("install_prompt");
 },true);
 addEventListener("appinstalled",()=>track("app_install"));
+
+/* University edition notice */
+if(SCHOOL){$("schoolBar").hidden=false;$("schoolText").textContent=SCHOOL.status==="partner"?`${SCHOOL.name} edition, in partnership with the ${SCHOOL.center}.`:`${SCHOOL.name} edition: a proposal prepared for the ${SCHOOL.center} (${SCHOOL.short}). This is not yet an official ${SCHOOL.name} tool.`;}
+
+/* One-page advisor summary */
+function summaryParts(){
+  const c=window.__cur;if(!c)return null;const d=c.d,v=verdict(d.overall);
+  const by=[...d.tasks].sort((a,b)=>b.exposure-a.exposure);
+  const human=[...d.tasks].filter(t=>t.mode==="human").sort((a,b)=>a.exposure-b.exposure);
+  const qs=[`Which skills from my plan should go first on my resume for ${d.role} roles?`,`Which employers hiring for ${d.role} already use AI, and what do they look for in candidates?`,"Which courses, certifications or short projects would close my biggest gap this semester?"];
+  return {d,v,source:c.source,date:new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}),exposed:by.slice(0,3),human:human.slice(0,3),qs};
+}
+function printSummary(){
+  const p=summaryParts();if(!p)return;const {d,v}=p;
+  let box=$("advisorSummary");if(!box){box=el("section");box.id="advisorSummary";document.body.appendChild(box);}box.replaceChildren();
+  const add=(tag,text,cls)=>{const e=el(tag,cls,text);box.appendChild(e);return e;};
+  add("h1","AI Career Stress Test: advisor summary");
+  add("p",`${d.role} · Score ${d.overall}/100, ${v.t.toLowerCase()} · ${p.source} · ${p.date}`,"meta");
+  if(SCHOOL)add("p",`Prepared for an appointment with the ${SCHOOL.center} (${SCHOOL.short}).`,"meta");
+  if(d.summary)add("p",d.summary);
+  add("h2","Most exposed tasks");const u1=add("ul");p.exposed.forEach(t=>u1.appendChild(el("li",null,`${t.task}: ${t.exposure}/100, ${MODE[t.mode].label.toLowerCase()}, ${HORIZON[t.horizon]}`)));
+  if(p.human.length){add("h2","Human-led tasks to grow");const u2=add("ul");p.human.forEach(t=>u2.appendChild(el("li",null,`${t.task}: ${t.exposure}/100`)));}
+  add("h2","My plan");const u3=add("ul");[["Hand off",d.plan.handOff],["Double down",d.plan.doubleDown],["Get ready",d.plan.prepare]].forEach(([k,a])=>a.slice(0,2).forEach(x=>u3.appendChild(el("li",null,`${k}: ${x}`))));
+  if(d.skills.length){add("h2","Skills to build");const u4=add("ul");d.skills.slice(0,3).forEach(x=>u4.appendChild(el("li",null,x.name||"")));}
+  if(d.newRoles.length){add("h2","Roles to explore");add("p",d.newRoles.join(" · "));}
+  add("h2","Questions for my advisor");const o=add("ol");p.qs.forEach(q=>o.appendChild(el("li",null,q)));
+  add("p","Scores are AI-assisted estimates, not predictions. "+TEST_LINK,"meta");
+  document.body.classList.add("print-summary");track("advisor_summary",{action:"print"});
+  const done=()=>{document.body.classList.remove("print-summary");removeEventListener("afterprint",done);};addEventListener("afterprint",done);
+  window.print();setTimeout(done,1500);
+}
+function downloadSummary(){
+  const p=summaryParts();if(!p)return;const {d,v}=p,L=[];
+  L.push("AI CAREER STRESS TEST: ADVISOR SUMMARY",`${d.role} · Score ${d.overall}/100, ${v.t.toLowerCase()}`,`${p.source} · ${p.date}`);
+  if(SCHOOL)L.push(`Prepared for an appointment with the ${SCHOOL.center} (${SCHOOL.short}).`);
+  L.push("",d.summary,"","MOST EXPOSED TASKS");p.exposed.forEach(t=>L.push(`- ${t.task}: ${t.exposure}/100, ${MODE[t.mode].label.toLowerCase()}, ${HORIZON[t.horizon]}`));
+  if(p.human.length){L.push("","HUMAN-LED TASKS TO GROW");p.human.forEach(t=>L.push(`- ${t.task}: ${t.exposure}/100`));}
+  L.push("","MY PLAN");[["Hand off",d.plan.handOff],["Double down",d.plan.doubleDown],["Get ready",d.plan.prepare]].forEach(([k,a])=>a.slice(0,2).forEach(x=>L.push(`- ${k}: ${x}`)));
+  if(d.skills.length){L.push("","SKILLS TO BUILD");d.skills.slice(0,3).forEach(x=>L.push("- "+(x.name||"")));}
+  if(d.newRoles.length){L.push("","ROLES TO EXPLORE");d.newRoles.forEach(x=>L.push("- "+x));}
+  if(SCHOOL){L.push("",`RESOURCES AT ${SCHOOL.short.toUpperCase()}`);SCHOOL.steps.forEach(x=>L.push(`- ${x.tool}: ${x.why}`));L.push(SCHOOL.home);}
+  L.push("","QUESTIONS FOR MY ADVISOR");p.qs.forEach((q,i)=>L.push(`${i+1}. ${q}`));
+  L.push("","Scores are AI-assisted estimates, not predictions.",TEST_LINK);
+  try{const blob=new Blob([L.join("\n")],{type:"text/plain;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="advisor-summary.txt";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);track("advisor_summary",{action:"download"});}catch(e){}
+}
 </script>
 
 </body>
