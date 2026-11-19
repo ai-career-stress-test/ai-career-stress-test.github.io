@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (anonymous visit counts) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TK867BVD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Test how exposed any job is to AI and robots, task by task, and get a plan to stay relevant. Works with ChatGPT, Gemini, Copilot, Claude or any AI.">
@@ -269,6 +276,7 @@ details textarea{margin-top:8px;font:12px/1.5 var(--mono);min-height:140px}
     <div class="c-augment"><strong>Augment</strong><br>AI does part. You direct and check.</div>
     <div class="c-human"><strong>Human-led</strong><br>Your judgment, hands or trust carry it.</div>
   </div>
+  <p class="foot">This site counts anonymous visits and test results with Google Analytics. Nothing you type, such as your job description or an AI's answer, is sent anywhere.</p>
   <p class="foot">Bands: under 30 low exposure for now · 30–59 partly exposed · 60+ largely exposed. Self-scoring weights: how repeatable 35, where it is done 30, consequence of error 20, need for trust 15. A task scoring 65+ counts as Automate, 35–64 as Augment, under 35 as Human-led. All scores are informed estimates, not predictions. Confirm any certification with the issuing body before enrolling.</p>
 </div></section>
 
@@ -552,6 +560,33 @@ $("installBtn").onclick=async()=>{if(!deferredInstall)return;deferredInstall.pro
 addEventListener("appinstalled",()=>{$("installBtn").hidden=true;});
 if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!matchMedia("(display-mode: standalone)").matches)$("iosHint").hidden=false;
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+
+/* Analytics: only counts and categories, never what people type. */
+function track(name,params){try{if(typeof gtag==="function")gtag("event",name,params||{});}catch(e){}}
+const KNOWN_AI=["chatgpt","gemini","copilot","claude","muse","perplexity","grok","meta ai","deepseek"];
+let pendingResult=false;
+document.addEventListener("submit",e=>{if(e.target&&["anyForm","selfForm","form"].includes(e.target.id))pendingResult=true;},true);
+const _render=render;
+render=function(raw,source,opts){
+  _render(raw,source,opts);
+  if(!pendingResult||String(source).startsWith("Example"))return;
+  pendingResult=false;
+  const score=clean(raw).overall,band=score>=60?"largely":score>=30?"partly":"low";
+  let method="self",ai="none";
+  if(source==="Scored by Claude"){method="claude_here";ai="claude";}
+  else if(String(source).startsWith("Scored by ")){method="any_ai";const n=String(source).slice(10).trim().toLowerCase();ai=KNOWN_AI.includes(n)?n:"other";}
+  track("test_completed",{method,ai_name:ai,score_band:band,score_bucket:Math.floor(score/10)*10});
+};
+document.addEventListener("click",e=>{
+  const t=e.target.closest&&e.target.closest("button,a");if(!t)return;
+  if(t.id==="copyPrompt")track("copy_prompt");
+  else if(t.id==="copyLink")track("share",{method:"copy_link"});
+  else if(t.id==="tabAny"||t.id==="tabSelf")track("select_mode",{mode:t.id==="tabAny"?"any_ai":"self"});
+  else if(t.closest(".ailinks"))track("open_ai",{ai_name:t.textContent.trim().toLowerCase()});
+  else if(t.closest(".sharecard"))track("share",{method:t.tagName==="A"?t.textContent.trim().toLowerCase():"copy_message"});
+  else if(t.id==="installBtn")track("install_prompt");
+},true);
+addEventListener("appinstalled",()=>track("app_install"));
 </script>
 
 </body>
